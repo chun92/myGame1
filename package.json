@@ -1,0 +1,25 @@
+{
+  "name": "new_game",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
+    "clean": "rimraf build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pixi.js": "^6.5.5",
+    "@pixi/assets": "^6.5.5",
+    
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1",
+    "html-webpack-plugin": "^5.5.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "terser-webpack-plugin": "^5.3.6",
+    "rimraf": "^3.0.2"
+  }
+}
