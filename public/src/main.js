@@ -1,6 +1,7 @@
 import gameManager from './gameManager';
 import { GameObject, GameObjectType } from './gameObject';
 import { Scene } from './scene';
+import { Map, Tile } from './map';
 import { PositionBase, Vector2D } from './util';
 
 gameManager.initialize();
@@ -8,6 +9,11 @@ gameManager.initialize();
 const scene = new Scene("test", gameManager.width, gameManager.height);
 gameManager.changeScene(scene);
 
-const gameObject = new GameObject("ball_black", GameObjectType.SPRITE, new Vector2D(0, 0), PositionBase.CENTER, 20, scene);
-gameObject.initialize();
-scene.addChild(gameObject);
+const map = new Map(new Vector2D(0, 0), PositionBase.CENTER, 100, scene);
+map.initialize();
+scene.addChild(map);
+/*
+const tile = new Tile(new Vector2D(0, 0), PositionBase.CENTER, 20, scene);
+tile.initialize();
+scene.addChild(tile);
+*/

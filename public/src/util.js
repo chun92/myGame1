@@ -97,36 +97,39 @@ export class CoordinateCalculator {
         let x = this.x + this.width/100.0 * xPercent;
         let y = this.y + this.height/100.0 * yPercent;
 
+        const width = target.x;
+        const height = target.y;
+
         switch (base) {
             case PositionBase.LEFT_TOP:
                 break;
             case PositionBase.RIGHT_TOP:
-                x = x + this.width - target.width;
+                x = x + this.width - width;
                 break;
             case PositionBase.LEFT_BOTTOM:
-                y = y + this.height - target.height;
+                y = y + this.height - height;
                 break;
             case PositionBase.RIGHT_BOTTOM:
-                x = x + this.width - target.width;
-                y = y + this.height - target.height;
+                x = x + this.width - width;
+                y = y + this.height - height;
                 break;
             case PositionBase.LEFT_MID:
-                y = y + (this.height - target.height) / 2;
+                y = y + (this.height - height) / 2;
                 break;
             case PositionBase.RIGHT_MID:
-                x = x + this.width - target.width;
-                y = y + (this.height - target.height) / 2;
+                x = x + this.width - width;
+                y = y + (this.height - height) / 2;
                 break;
             case PositionBase.TOP_MID:
-                x = x + (this.width - target.width) / 2;
+                x = x + (this.width - width) / 2;
                 break;
             case PositionBase.BOTTOM_MID:
-                x = x + (this.width - target.width) / 2;
-                y = y + this.height - target.height;
+                x = x + (this.width - width) / 2;
+                y = y + this.height - height;
                 break;
             case PositionBase.CENTER:
-                x = x + (this.width - target.width) / 2;
-                y = y + (this.height - target.height) / 2;
+                x = x + (this.width - width) / 2;
+                y = y + (this.height - height) / 2;
                 break;
         }
         

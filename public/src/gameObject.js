@@ -1,7 +1,7 @@
 import { Vector2DFactory, CoordinateCalculator } from "./util";
 import { AssetMap } from "../data/assetMap";
 import { Assets } from "@pixi/assets";
-import { Sprite } from "pixi.js";
+import { Container, Sprite } from "pixi.js";
 
 export const GameObjectType = Object.freeze({
     SPRITE: "sprite",
@@ -19,6 +19,10 @@ export class GameObject {
         this.positionPercent = positionPercent;
         this.positionBase = positionBase;
         this.sizePercent = sizePercent;
+
+        this.postion;
+        this.size;
+
         this.parent = parent;
         this.children = [];
     }
@@ -26,7 +30,8 @@ export class GameObject {
     async initialize() {
         try {
             if (this.objectType === GameObjectType.CONTAINER) {
-
+                this.setContainer();
+                this.updateSize();
             } else {
                 await this.loadAsset();
                 this.updateSize();
@@ -38,13 +43,36 @@ export class GameObject {
 
     updateSize() {
         const parentCoordinateCalculator = this.parent.coordinateCalculator;
-        const size = parentCoordinateCalculator.getSize(this.sizePercent, Vector2DFactory.makeFromContainer(this.asset));
-        this.asset.width = size.x;
-        this.asset.height = size.y;
-        const position = parentCoordinateCalculator.getTargetPosition(this.positionBase, this.asset, this.positionPercent.x, this.positionPercent.y);
-        this.asset.position.x = position.x;
-        this.asset.position.y = position.y;
-        this.coordinateCalculator.setSize(position.x, position.y, this.asset.width, this.asset.height);
+        const size = parentCoordinateCalculator.getSize(this.sizePercent, this.size);
+        this.size = size;
+
+        const position = parentCoordinateCalculator.getTargetPosition(this.positionBase, size, this.positionPercent.x, this.positionPercent.y);
+        this.position = position;
+
+        if (this.objectType !== GameObjectType.CONTAINER) {
+            this.asset.position.x = position.x;
+            this.asset.position.y = position.y;
+            
+            this.asset.width = size.x;
+            this.asset.height = size.y;
+        }
+
+        if (this.coordinateCalculator) {
+            this.coordinateCalculator.setPosition(position.x, position.y);
+            this.coordinateCalculator.setSize(size.x, size.y);
+        } else {
+            this.coordinateCalculator = new CoordinateCalculator(position.x, position.y, size.x, size.y);
+        }
+        
+        console.log(this.name, this.position, this.size);
+    }
+
+    setContainer() {
+        this.asset = new Container();
+        this.parent.asset.addChild(this.asset);
+
+        const parentCoordinateCalculator = this.parent.coordinateCalculator;
+        this.size = parentCoordinateCalculator.getSize(this.sizePercent, this.parent.size);
     }
     
     async loadAsset() {
@@ -56,9 +84,10 @@ export class GameObject {
         switch (this.objectType) {
             case GameObjectType.SPRITE:
                 this.asset = Sprite.from(asset);
+                break;
         }
         this.parent.asset.addChild(this.asset);
-        this.coordinateCalculator = new CoordinateCalculator(0, 0, this.asset.width, this.asset.height);
+        this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
     }
 
     resize() {
@@ -68,5 +97,7 @@ export class GameObject {
         });
     }
 
-
+    addChild(gameObject) {
+        this.children.push(gameObject);
+    }
 }

@@ -7,6 +7,7 @@ export const AssetMap = {
     'ball_white': 'assets/sprites/ball_white.png',
     'ball_yellow': 'assets/sprites/ball_yellow.png',
     'hexagon_black': 'assets/sprites/hexagon_black.png',
+    'tile': 'assets/sprites/hexagon_black.png',
     'enemy': 'assets/sprites/enemy.png',
     'player': 'assets/sprites/player.png'
 }
