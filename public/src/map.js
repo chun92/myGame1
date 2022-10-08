@@ -10,7 +10,7 @@ export class Map extends GameObject {
 
     async initialize() {
         super.initialize();
-        await this.setTiles(2);
+        await this.setTiles(3);
     }
 
     async setTiles(radius) {
@@ -34,7 +34,7 @@ export class Map extends GameObject {
 
 export class Tile extends GameObject {
     constructor (vectorHexagon, positionBase, sizePercent, parent) {
-        const positionPercent = vectorHexagon.getVector2D().scale(17);
+        const positionPercent = vectorHexagon.getVector2D().vectorScale(parent.size).scalarScale(11);
         console.log('tile position', positionPercent.x, positionPercent.y);
         super('tile', GameObjectType.SPRITE, positionPercent, positionBase, sizePercent, parent);
     }

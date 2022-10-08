@@ -18,7 +18,12 @@ export class Vector2D {
         return this;
     }
 
-    scale(val) {
+    vectorScale(other) {
+        this.y = this.y * other.x / other.y;
+        return this;
+    }
+    
+    scalarScale(val) {
         this.x = this.x * val;
         this.y = this.y * val;
         return this;
