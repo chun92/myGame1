@@ -11,7 +11,7 @@ export class Scene {
         this.children = [];
 
         const sceneSize = Vector2DFactory.make(width, height);
-        this.coordinateCalculator = new CoordinateCalculator(0, 0, sceneSize.x, sceneSize.y);
+        this.coordinateCalculator = new CoordinateCalculator(sceneSize.x, sceneSize.y);
         this.size = sceneSize;
     }
 

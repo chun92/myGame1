@@ -49,19 +49,18 @@ export class GameObject {
         const position = parentCoordinateCalculator.getTargetPosition(this.positionBase, size, this.positionPercent.x, this.positionPercent.y);
         this.position = position;
 
+        this.asset.position.x = position.x;
+        this.asset.position.y = position.y;
+
         if (this.objectType !== GameObjectType.CONTAINER) {
-            this.asset.position.x = position.x;
-            this.asset.position.y = position.y;
-            
             this.asset.width = size.x;
             this.asset.height = size.y;
         }
 
         if (this.coordinateCalculator) {
-            this.coordinateCalculator.setPosition(position.x, position.y);
             this.coordinateCalculator.setSize(size.x, size.y);
         } else {
-            this.coordinateCalculator = new CoordinateCalculator(position.x, position.y, size.x, size.y);
+            this.coordinateCalculator = new CoordinateCalculator(size.x, size.y);
         }
         
         console.log(this.name, this.position, this.size);
