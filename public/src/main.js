@@ -9,11 +9,6 @@ gameManager.initialize();
 const scene = new Scene("test", gameManager.width, gameManager.height);
 gameManager.changeScene(scene);
 
-const map = new Map(new Vector2D(0, 0), PositionBase.CENTER, 100, scene);
+const map = new Map(new Vector2D(0, 0), PositionBase.CENTER, 80, scene);
 map.initialize();
 scene.addChild(map);
-/*
-const tile = new Tile(new Vector2D(0, 0), PositionBase.CENTER, 20, scene);
-tile.initialize();
-scene.addChild(tile);
-*/
