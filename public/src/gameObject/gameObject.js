@@ -12,8 +12,8 @@ export const GameObjectType = Object.freeze({
 export class GameObject {
     static count = 0;
     constructor (name, objectType, positionPercent, positionBase, sizePercent, parent) {
-        this.count++;
-        this.id = this.count;
+        GameObject.count++;
+        this.id = GameObject.count;
         this.name = name;
         this.objectType = objectType;
         this.positionPercent = positionPercent;
