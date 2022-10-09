@@ -1,6 +1,6 @@
 import gameManager from './gameManager';
 import { Scene } from './scene';
-import { Map } from './map';
+import { Map } from './gameObject/map';
 import { PositionBase, Vector2D } from './util';
 
 gameManager.initialize();

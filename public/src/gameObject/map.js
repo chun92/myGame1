@@ -1,5 +1,6 @@
 import { GameObject, GameObjectType } from "./gameObject";
-import { PositionBase, Vector2DFactory, VectorHexagonFactory } from "./util";
+import { PositionBase, VectorHexagonFactory } from "../util";
+import { Tile } from "./tile";
 
 export class Map extends GameObject {
     constructor (positionPercent, positionBase, sizePercent, parent) {
@@ -28,14 +29,5 @@ export class Map extends GameObject {
                 }
             }
         }
-    }
-}
-
-
-export class Tile extends GameObject {
-    constructor (vectorHexagon, positionBase, sizePercent, parent) {
-        const margin = 1;
-        const positionPercent = vectorHexagon.getVector2D().vectorScale(parent.size).scalarScale(sizePercent/2 + margin);
-        super('tile', GameObjectType.SPRITE, positionPercent, positionBase, sizePercent, parent);
     }
 }

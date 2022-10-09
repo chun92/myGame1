@@ -1,5 +1,5 @@
-import { Vector2DFactory, CoordinateCalculator } from "./util";
-import { AssetMap } from "../data/assetMap";
+import { Vector2DFactory, CoordinateCalculator } from "../util";
+import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { Container, Sprite } from "pixi.js";
 
