@@ -8,25 +8,25 @@ export class Map extends GameObject {
         this.tiles = [];
     }
 
-    async initialize() {
+    async initialize(tileRingSize) {
         super.initialize();
-        await this.setTiles(3);
+        const numOfTiles = tileRingSize * 2 - 1;
+        const radius = 100.0 / numOfTiles;
+        await this.setTiles(tileRingSize, radius);
     }
 
-    async setTiles(radius) {
-        for (let i = 0; i < radius; i++) {
+    async setTiles(tileRingSize, radius) {
+        for (let i = 0; i < tileRingSize; i++) {
             for (let j = -i; j <= i; j++) 
             for (let k = -i; k <= i; k++) 
             for (let l = -i; l <= i; l++) {
                 if (Math.abs(j) + Math.abs(k) + Math.abs(l) == i * 2 && j + k + l == 0) {
-                    console.log(j + ", " + k + ", " + l);
-                    const tile = new Tile(VectorHexagonFactory.make(j, k, l), PositionBase.CENTER, 20, this);
+                    const tile = new Tile(VectorHexagonFactory.make(j, k, l), PositionBase.CENTER, radius, this);
                     await tile.initialize();
                     this.tiles.push(tile);
                     this.addChild(tile);
                 }
             }
-            console.log("");
         }
     }
 }
@@ -34,8 +34,8 @@ export class Map extends GameObject {
 
 export class Tile extends GameObject {
     constructor (vectorHexagon, positionBase, sizePercent, parent) {
-        const positionPercent = vectorHexagon.getVector2D().vectorScale(parent.size).scalarScale(11);
-        console.log('tile position', positionPercent.x, positionPercent.y);
+        const margin = 1;
+        const positionPercent = vectorHexagon.getVector2D().vectorScale(parent.size).scalarScale(sizePercent/2 + margin);
         super('tile', GameObjectType.SPRITE, positionPercent, positionBase, sizePercent, parent);
     }
 }
