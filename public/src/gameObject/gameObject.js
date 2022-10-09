@@ -62,6 +62,10 @@ export class GameObject {
         } else {
             this.coordinateCalculator = new CoordinateCalculator(size.x, size.y);
         }
+
+        console.log(this.name, position, size);
+        console.log(this.name, this.asset.position);
+        console.log(this.name, parentCoordinateCalculator);
     }
 
     setContainer() {

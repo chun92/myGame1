@@ -1,13 +1,13 @@
 export const AssetMap = {
-    'ball_black': 'assets/sprites/ball_black.png',
-    'ball_blue': 'assets/sprites/ball_blue.png',
-    'ball_green': 'assets/sprites/ball_green.png',
-    'ball_orange': 'assets/sprites/ball_orange.png',
-    'ball_red': 'assets/sprites/ball_red.png',
-    'ball_white': 'assets/sprites/ball_white.png',
-    'ball_yellow': 'assets/sprites/ball_yellow.png',
+    'energy_black': 'assets/sprites/energy_black.png',
+    'energy_blue': 'assets/sprites/energy_blue.png',
+    'energy_green': 'assets/sprites/energy_green.png',
+    'energy_orange': 'assets/sprites/energy_orange.png',
+    'energy_red': 'assets/sprites/energy_red.png',
+    'energy_white': 'assets/sprites/energy_white.png',
+    'energy_yellow': 'assets/sprites/energy_yellow.png',
     'hexagon_black': 'assets/sprites/hexagon_black.png',
     'tile': 'assets/sprites/hexagon_black.png',
     'enemy': 'assets/sprites/enemy.png',
-    'player': 'assets/sprites/player.png'
+    'player': 'assets/sprites/player.png',
 }
