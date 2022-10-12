@@ -17,8 +17,8 @@ export class Scene {
 
     resize(width, height) {
         this.coordinateCalculator.setSize(width, height);
-        this.children.forEach((value, index, array) => {
-            value.resize();
+        this.children.forEach((child) => {
+            child.resize();
         });
     }
 
@@ -27,6 +27,8 @@ export class Scene {
     }
 
     update(framesPassed) {
-        
+        this.children.forEach((child) => {
+            child.update(framesPassed);
+        });
     }
 }

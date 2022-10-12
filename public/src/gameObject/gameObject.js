@@ -130,12 +130,18 @@ export class GameObject {
 
     resize() {
         this.updateSize();
-        this.children.forEach((value, index, array) => {
-            value.resize();
+        this.children.forEach((child) => {
+            child.resize();
         });
     }
 
     addChild(gameObject) {
         this.children.push(gameObject);
+    }
+
+    update(framesPassed) {
+        this.children.forEach((child) => {
+            child.update(framesPassed);
+        });
     }
 }

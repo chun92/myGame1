@@ -45,8 +45,6 @@ class GameManager {
                 this.currentScene.resize(this.width, this.height);
             }
         }, true);
-
-        this.app.ticker.add(this.update);
     }
 
     changeScene(newScene) {
@@ -57,14 +55,18 @@ class GameManager {
 
         this.currentScene = newScene;
         this.app.stage.addChild(this.currentScene.asset);
-    }
 
-    update(framesPassed) {
-        /*
-        if (this.currentScene) {
-            this.currentScene.update(framesPassed);
+        if (this.updateCallback) {
+            this.app.ticker.remove(this.updateCallback);
         }
-        */
+
+        this.updateCallback = (framesPassed) => {
+            if (this.currentScene) {
+                this.currentScene.update(framesPassed);
+            }
+        };
+
+        this.app.ticker.add(this.updateCallback);
     }
 }
 
