@@ -2,6 +2,7 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = (env, argv) => {
     return ({
@@ -15,6 +16,10 @@ module.exports = (env, argv) => {
             new CopyPlugin({
                 patterns: [{ from: 'public/' }],
             }),
+
+            new webpack.ProvidePlugin({
+                PIXI: 'pixi.js'
+            })
         ],
         
         // Config for your testing server

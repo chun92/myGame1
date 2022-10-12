@@ -1,4 +1,5 @@
 import { Application } from 'pixi.js'
+import * as PIXI from 'pixi.js';
 
 class GameManager {
     constructor() {
@@ -17,6 +18,10 @@ class GameManager {
         return this.instance;
     }
 
+    registerPixiInspector() {
+        window.__PIXI_INSPECTOR_GLOBAL_HOOK__ &&  window.__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
+    }
+
     initialize() {
         this.width = window.screen.width;
         this.height = window.screen.height;
@@ -28,6 +33,8 @@ class GameManager {
             backgroundColor: 0xffffff,
             resizeTo: window
         });
+
+        this.registerPixiInspector();
 
         window.addEventListener('resize', () => {
             this.width = window.screen.width;
