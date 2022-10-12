@@ -147,7 +147,10 @@ export const PositionBase = Object.freeze({
 
 export class CoordinateCalculator {
     constructor(width, height) {
-        this.setSize(width, height);
+        this.width = width;
+        this.height = height;
+        this.prevWidth = 0;
+        this.prevHeight = 0;
     }
 
     getPosition(xPercent, yPercent) {
@@ -157,8 +160,11 @@ export class CoordinateCalculator {
     }
 
     setSize(width, height) {
+        this.prevWidth = this.width;
+        this.prevHeight = this.height;
         this.width = width;
         this.height = height;
+        this.ratioChanged = this.width / this.prevWidth;
     }
 
     getSize(percent, original) {
@@ -174,10 +180,15 @@ export class CoordinateCalculator {
         }
     }
 
-    getTargetPosition(xPercent, yPercent) {
-        const x = this.width/100.0 * xPercent;
-        const y = this.height/100.0 * yPercent;
-        
-        return new Vector2D(x, y);
+    getTargetPosition(xPercent, yPercent, original) {
+        if (original) {
+            const x = original.x * this.ratioChanged;
+            const y = original.y * this.ratioChanged;
+            return new Vector2D(x, y);
+        } else {
+            const x = this.width/100.0 * xPercent;
+            const y = this.height/100.0 * yPercent;
+            return new Vector2D(x, y);
+        }
     }
 }

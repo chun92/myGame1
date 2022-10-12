@@ -22,7 +22,7 @@ export class Stage {
     async initialize() {
         // TODO: stage info will be saved as json or xml file format later
         const map = new Map(100, this.scene);
-        await map.initialize(1);
+        await map.initialize(2);
         this.scene.addChild(map);
         this.map = map;
     }

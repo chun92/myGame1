@@ -34,7 +34,6 @@ export class Map extends GameObject {
                 }
             }
         }
-        console.log(this.tileMap);
     }
 
     getTile(x, y, z) {
