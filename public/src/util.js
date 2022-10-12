@@ -162,51 +162,21 @@ export class CoordinateCalculator {
     }
 
     getSize(percent, original) {
-        const ratio = this.width / 100;
-        const width = ratio * percent;
-        const height = original.y / original.x * width;
-        return new Vector2D(width, height);
+        if (original) {
+            const ratio = this.width / 100;
+            const width = ratio * percent;
+            const height = original.y / original.x * width;
+            return new Vector2D(width, height);
+        } else {
+            const width = this.width * percent / 100;
+            const height = this.height * percent / 100;
+            return new Vector2D(width, height);
+        }
     }
 
-    getTargetPosition(base, target, xPercent, yPercent) {
-        let x = this.width/100.0 * xPercent;
-        let y = this.height/100.0 * yPercent;
-
-        const width = target.x;
-        const height = target.y;
-
-        switch (base) {
-            case PositionBase.LEFT_TOP:
-                break;
-            case PositionBase.RIGHT_TOP:
-                x = x + this.width - width;
-                break;
-            case PositionBase.LEFT_BOTTOM:
-                y = y + this.height - height;
-                break;
-            case PositionBase.RIGHT_BOTTOM:
-                x = x + this.width - width;
-                y = y + this.height - height;
-                break;
-            case PositionBase.LEFT_MID:
-                y = y + (this.height - height) / 2;
-                break;
-            case PositionBase.RIGHT_MID:
-                x = x + this.width - width;
-                y = y + (this.height - height) / 2;
-                break;
-            case PositionBase.TOP_MID:
-                x = x + (this.width - width) / 2;
-                break;
-            case PositionBase.BOTTOM_MID:
-                x = x + (this.width - width) / 2;
-                y = y + this.height - height;
-                break;
-            case PositionBase.CENTER:
-                x = x + (this.width - width) / 2;
-                y = y + (this.height - height) / 2;
-                break;
-        }
+    getTargetPosition(xPercent, yPercent) {
+        const x = this.width/100.0 * xPercent;
+        const y = this.height/100.0 * yPercent;
         
         return new Vector2D(x, y);
     }

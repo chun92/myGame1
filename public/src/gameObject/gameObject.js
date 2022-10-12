@@ -1,4 +1,4 @@
-import { Vector2DFactory, CoordinateCalculator } from "../util";
+import { Vector2DFactory, PositionBase } from "../util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { Container, Sprite } from "pixi.js";
@@ -11,7 +11,7 @@ export const GameObjectType = Object.freeze({
 
 export class GameObject {
     static count = 0;
-    constructor (name, objectType, positionPercent, positionBase, sizePercent, parent) {
+    constructor (name, objectType, positionPercent, positionBase, sizePercent, parent, scene) {
         GameObject.count++;
         this.id = GameObject.count;
         this.name = name;
@@ -24,6 +24,7 @@ export class GameObject {
         this.size;
 
         this.parent = parent;
+        this.scene = scene;
         this.children = [];
     }
 
@@ -42,38 +43,67 @@ export class GameObject {
     }
 
     updateSize() {
-        const parentCoordinateCalculator = this.parent.coordinateCalculator;
-        const size = parentCoordinateCalculator.getSize(this.sizePercent, this.size);
-        this.size = size;
+        const coordinateCalculator = this.scene.coordinateCalculator;
+        if (this.objectType === GameObjectType.CONTAINER) {
+            const size = coordinateCalculator.getSize(this.sizePercent, this.size);
+            this.size = size;
+        } else {
+            this.setAnchor(this.positionBase);
+            if (!this.parent || this.parent.objectType === GameObjectType.CONTAINER) {
+                const size = coordinateCalculator.getSize(this.sizePercent, this.size);
+                this.size = size;
+                this.asset.width = size.x;
+                this.asset.height = size.y;
+            } else {
+                this.asset.scale.x = this.sizePercent/100;
+                this.asset.scale.y = this.sizePercent/100;
+                this.size = Vector2DFactory.makeFromContainer(this.asset);
+            }
+        }
 
-        const position = parentCoordinateCalculator.getTargetPosition(this.positionBase, size, this.positionPercent.x, this.positionPercent.y);
+        const position = coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y);
         this.position = position;
-
         this.asset.position.x = position.x;
         this.asset.position.y = position.y;
+    }
 
-        if (this.objectType !== GameObjectType.CONTAINER) {
-            this.asset.width = size.x;
-            this.asset.height = size.y;
+    setAnchor(positionBase) {
+        switch (positionBase) {
+            case PositionBase.LEFT_TOP:
+                this.asset.anchor.set(0, 0);
+                break;
+            case PositionBase.RIGHT_TOP:
+                this.asset.anchor.set(1, 0);
+                break;
+            case PositionBase.LEFT_BOTTOM:
+                this.asset.anchor.set(0, 1);
+                break;
+            case PositionBase.RIGHT_BOTTOM:
+                this.asset.anchor.set(1, 1);
+                break;
+            case PositionBase.LEFT_MID:
+                this.asset.anchor.set(0, 0.5);
+                break;
+            case PositionBase.RIGHT_MID:
+                this.asset.anchor.set(1, 0.5);
+                break;
+            case PositionBase.TOP_MID:
+                this.asset.anchor.set(0.5, 0);
+                break;
+            case PositionBase.BOTTOM_MID:
+                this.asset.anchor.set(0.5, 1);
+                break;
+            case PositionBase.CENTER:
+                this.asset.anchor.set(0.5, 0.5);
+                break;
         }
-
-        if (this.coordinateCalculator) {
-            this.coordinateCalculator.setSize(size.x, size.y);
-        } else {
-            this.coordinateCalculator = new CoordinateCalculator(size.x, size.y);
-        }
-
-        console.log(this.name, position, size);
-        console.log(this.name, this.asset.position);
-        console.log(this.name, parentCoordinateCalculator);
     }
 
     setContainer() {
         this.asset = new Container();
         this.parent.asset.addChild(this.asset);
 
-        const parentCoordinateCalculator = this.parent.coordinateCalculator;
-        this.size = parentCoordinateCalculator.getSize(this.sizePercent, this.parent.size);
+        this.size = this.scene.coordinateCalculator.getSize(this.sizePercent);
     }
     
     async loadAsset() {

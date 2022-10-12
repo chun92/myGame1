@@ -11,15 +11,7 @@ export const EnergyType = Object.freeze({
 });
 
 export class Energy extends GameObject {
-    constructor (energy_type, positionPercent, positionBase, sizePercent, parent) {
-        super(energy_type, GameObjectType.SPRITE, positionPercent, positionBase, sizePercent, parent);
-    }
-}
-
-export class Tile extends GameObject {
-    constructor (vectorHexagon, positionBase, sizePercent, parent) {
-        const margin = 1;
-        const positionPercent = vectorHexagon.getVector2D().vectorScale(parent.size).scalarScale(sizePercent/2 + margin);
-        super('tile', GameObjectType.SPRITE, positionPercent, positionBase, sizePercent, parent);
+    constructor (energy_type, positionPercent, positionBase, sizePercent, parent, scene) {
+        super(energy_type, GameObjectType.SPRITE, positionPercent, positionBase, sizePercent, parent, scene);
     }
 }

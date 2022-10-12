@@ -21,7 +21,7 @@ export class Stage {
 
     async initialize() {
         // TODO: stage info will be saved as json or xml file format later
-        const map = new Map(new Vector2DFactory.make(0, 0), PositionBase.CENTER, 100, this.scene);
+        const map = new Map(100, this.scene);
         await map.initialize(1);
         this.scene.addChild(map);
         this.map = map;
@@ -39,7 +39,7 @@ export class Stage {
             return;
         }
 
-        const energy = new Energy(energyType, Vector2DFactory.make(0, 0), PositionBase.LEFT_TOP, 50, tile);
+        const energy = new Energy(energyType, Vector2DFactory.make(0, 0), PositionBase.CENTER, 10, tile, this.scene);
         await energy.initialize();
         tile.setObject(energy);
     }

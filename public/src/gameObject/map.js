@@ -1,10 +1,10 @@
 import { GameObject, GameObjectType } from "./gameObject";
-import { PositionBase, VectorHexagonFactory } from "../util";
+import { PositionBase, Vector2DFactory, VectorHexagonFactory } from "../util";
 import { Tile } from "./tile";
 
 export class Map extends GameObject {
-    constructor (positionPercent, positionBase, sizePercent, parent) {
-        super('map', GameObjectType.CONTAINER, positionPercent, positionBase, sizePercent, parent);
+    constructor (sizePercent, scene) {
+        super('map', GameObjectType.CONTAINER, new Vector2DFactory.make(50, 50), PositionBase.CENTER, sizePercent, scene, scene);
     }
 
     async initialize(tileRingSize) {
@@ -26,7 +26,7 @@ export class Map extends GameObject {
             for (let k = -i; k <= i; k++) 
             for (let l = -i; l <= i; l++) {
                 if (Math.abs(j) + Math.abs(k) + Math.abs(l) == i * 2 && j + k + l == 0) {
-                    const tile = new Tile(VectorHexagonFactory.make(j, k, l), PositionBase.CENTER, radius, this);
+                    const tile = new Tile(VectorHexagonFactory.make(j, k, l), PositionBase.CENTER, radius, this, this.scene);
                     await tile.initialize();
                     this.addChild(tile);
 
