@@ -1,5 +1,6 @@
 import { Energy, EnergyType } from "./gameObject/energy";
 import { Map } from "./gameObject/map"
+import { UpperUI } from "./ui/upperUi";
 import { PositionBase, Vector2DFactory } from "./util";
 
 export class Stage {
@@ -12,6 +13,7 @@ export class Stage {
         this.turn = 0;
         this.player = null;
         this.enemies = [];
+        this.energy = {};
     }
 
     async test() {
@@ -20,7 +22,7 @@ export class Stage {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+            return Math.floor(Math.random() * (max - min)) + min; 
         }
 
         for (let pos in this.map.tileMap) {
@@ -53,6 +55,13 @@ export class Stage {
             await energy.initialize();
             tile.setObject(energy);
         }
+
+        this.energy[EnergyType.ENERGY_BLACK] = 1;
+        this.energy[EnergyType.ENERGY_GREEN] = 2;
+        this.energy[EnergyType.ENERGY_BLUE] = 1;
+        this.energy[EnergyType.ENERGY_ORANGE] = 3;
+        this.energy[EnergyType.ENERGY_RED] = 4;
+        this.energy[EnergyType.ENERGY_WHITE] = 0;
     }
 
     async initialize() {
@@ -61,6 +70,10 @@ export class Stage {
         await map.initialize(3);
         this.scene.addChild(map);
         this.map = map;
+
+        const upperUi = new UpperUI(this.scene);
+        await upperUi.initialize();
+        this.scene.addChild(upperUi);
     }
 
     async addEnergyOnMap(x, y, z, energyType) {

@@ -4,11 +4,11 @@ import { Tile } from "./tile";
 
 export class Map extends GameObject {
     constructor (sizePercent, scene) {
-        super('map', GameObjectType.CONTAINER, new Vector2DFactory.make(50, 50), PositionBase.CENTER, sizePercent, scene, scene);
+        super('map', GameObjectType.CONTAINER, new Vector2DFactory.make(50, 50), PositionBase.NONE, sizePercent, scene, scene);
     }
 
     async initialize(tileRingSize) {
-        super.initialize();
+        await super.initialize();
         const numOfTiles = tileRingSize * 2 - 1;
         const radius = 100.0 / numOfTiles;
         this.tileMap = {};

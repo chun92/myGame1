@@ -1,7 +1,7 @@
 import { Vector2DFactory, PositionBase } from "../util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
-import { Container, Sprite } from "pixi.js";
+import { Container, Sprite, Text } from "pixi.js";
 
 export const GameObjectType = Object.freeze({
     SPRITE: "sprite",
@@ -33,8 +33,11 @@ export class GameObject {
             if (this.objectType === GameObjectType.CONTAINER) {
                 this.setContainer();
                 this.updateSize();
-            } else {
+            } else if (this.objectType === GameObjectType.SPRITE) {
                 await this.loadAsset();
+                this.updateSize();
+            } else if (this.objectType === GameObjectType.TEXT) {
+                this.setText();
                 this.updateSize();
             }
         } catch (error) {
@@ -109,8 +112,13 @@ export class GameObject {
     setContainer() {
         this.asset = new Container();
         this.parent.asset.addChild(this.asset);
-
         this.size = this.scene.coordinateCalculator.getSize(this.sizePercent);
+    }
+
+    setText() {
+        this.asset = new Text(this.name);
+        this.parent.asset.addChild(this.asset);
+        this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
     }
     
     async loadAsset() {

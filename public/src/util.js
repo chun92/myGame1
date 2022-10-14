@@ -142,7 +142,8 @@ export const PositionBase = Object.freeze({
     RIGHT_MID: 'right_mid',
     TOP_MID: 'top_mid',
     BOTTOM_MID: 'bottom_mid',
-    CENTER: 'center'
+    CENTER: 'center',
+    NONE: 'none'
 });
 
 export class CoordinateCalculator {
