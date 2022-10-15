@@ -1,4 +1,3 @@
-import { EnergyType } from "../gameObject/energy";
 import { GameObject, GameObjectType } from "../gameObject/gameObject";
 import { PositionBase, Vector2DFactory } from "../util";
 
