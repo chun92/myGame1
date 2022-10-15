@@ -64,9 +64,12 @@ class EnergyResourceUI extends GameObject {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, column * 4), PositionBase.NONE, 40, parent, scene);
+        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, 0), PositionBase.NONE, 10, parent, scene);
         this.energyType = energyType;
         this.num = num;
+
+        this.row = row;
+        this.column = column;
     }
 
     async initialize() {
@@ -87,6 +90,14 @@ class EnergyResourceUI extends GameObject {
         this.num = num;
         const text = 'x' + num;
         this.energyResourceText.setText(text);
+    }
+
+    updateSize() {
+        super.updateSize();
+        const height = this.asset.height;
+        const margin = 10;
+        this.asset.y = height * this.column + margin * this.column;
+        this.position.y = this.asset.y;
     }
 }
 
@@ -123,7 +134,7 @@ class TurnUI extends GameObject {
 
     setTurn(turn) {
         this.turn = turn;
-        const formattedNumber = myNumber.toLocaleString('en-US', {
+        const formattedNumber = turn.toLocaleString('en-US', {
             minimumIntegerDigits: 2,
             useGrouping: false
         });
@@ -139,6 +150,6 @@ class TurnText extends GameObject {
 
 class TurnCount extends GameObject {
     constructor (text, parent, scene) {
-        super(text, GameObjectType.TEXT, new Vector2DFactory.make(43.5, 5), PositionBase.LEFT_TOP, 15, parent, scene);
+        super(text, GameObjectType.TEXT, new Vector2DFactory.make(46, 6), PositionBase.LEFT_TOP, 10, parent, scene);
     }
 }

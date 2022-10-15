@@ -58,8 +58,8 @@ export class GameObject {
                 this.asset.width = size.x;
                 this.asset.height = size.y;
             } else {
-                this.asset.scale.x = this.sizePercent/100;
-                this.asset.scale.y = this.sizePercent/100;
+                this.asset.scale.x = this.sizePercent / 100;
+                this.asset.scale.y = this.sizePercent / 100;
                 this.size = Vector2DFactory.makeFromContainer(this.asset);
             }
         }
