@@ -1,5 +1,5 @@
 import { GameObject, GameObjectType } from "../gameObject/gameObject";
-import { PositionBase, Vector2DFactory } from "../util";
+import { PositionBase, StringUtils, Vector2DFactory } from "../util";
 
 export class UpperUI extends GameObject {
     constructor (scene) {
@@ -18,6 +18,11 @@ export class UpperUI extends GameObject {
         await turnUI.initialize();
         this.turnUI = turnUI;
         this.addChild(turnUI);
+
+        const abilitiesUI = new AbilitiesUI(this, this.scene);
+        await abilitiesUI.initialize();
+        this.abilitiesUI = abilitiesUI;
+        this.addChild(abilitiesUI);
     }
 
     setEnergyResourcesUI(energyCount) {
@@ -26,6 +31,10 @@ export class UpperUI extends GameObject {
 
     setTurn(turn) {
         this.turnUI.setTurn(turn);
+    }
+
+    setAbilityUI(abilityCount) {
+        this.abilitiesUI.updateAbilities(abilityCount);
     }
 }
 
@@ -126,7 +135,7 @@ class TurnUI extends GameObject {
         await turnText.initialize();
         this.addChild(turnText);
 
-        const turnCount = new TurnCount('00', this, this.scene);
+        const turnCount = new TurnCount(StringUtils.getNthNumber(0, 2), this, this.scene);
         await turnCount.initialize();
         this.addChild(turnCount);
         this.turnCount = turnCount;
@@ -134,22 +143,101 @@ class TurnUI extends GameObject {
 
     setTurn(turn) {
         this.turn = turn;
-        const formattedNumber = turn.toLocaleString('en-US', {
-            minimumIntegerDigits: 2,
-            useGrouping: false
-        });
-        this.turnCount.setText(formattedNumber);
+        this.turnCount.setText(StringUtils.getNthNumber(turn, 2));
     }
 }
 
 class TurnText extends GameObject {
     constructor (parent, scene) {
-        super('TURN', GameObjectType.TEXT, new Vector2DFactory.make(43.5, 0), PositionBase.LEFT_TOP, 15, parent, scene);
+        super('TURN', GameObjectType.TEXT, new Vector2DFactory.make(42.5, 0), PositionBase.LEFT_TOP, 15, parent, scene);
     }
 }
 
 class TurnCount extends GameObject {
     constructor (text, parent, scene) {
-        super(text, GameObjectType.TEXT, new Vector2DFactory.make(46, 6), PositionBase.LEFT_TOP, 10, parent, scene);
+        super(text, GameObjectType.TEXT, new Vector2DFactory.make(45, 6), PositionBase.LEFT_TOP, 10, parent, scene);
+    }
+}
+class AbilitiesUI extends GameObject {
+    constructor (parent, scene) {
+        super('abilitiesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(59, 1), PositionBase.NONE, 40, parent, scene);
+    }
+    
+    async initialize() {
+        this.abilityMap = {};
+        this.count = 0;
+        await super.initialize();
+    }
+
+    async updateAbilities(abilityCount) {
+        for (const abilityType in abilityCount) {
+            await this.setAbilityUI(abilityType, abilityCount[abilityType]);
+        }
+    }
+
+    async setAbilityUI(abilityType, num) {
+        const abilityUI = this.abilityMap[abilityType];
+        if (!abilityUI) {
+            const abilityUI = new AbilityUI(abilityType, num, this.count, this, this.scene);
+            await abilityUI.initialize();
+            this.addChild(abilityUI);
+            this.abilityMap[abilityType] = abilityUI;
+            this.count++;
+        } else {
+            abilityUI.setNum(num);
+        }
+    }
+}
+
+class AbilityUI extends GameObject {
+    constructor (abilityType, num, index, parent, scene) {
+        const row = index % 4;
+        const column = Math.floor(index / 4);
+        super('abilityUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, 0), PositionBase.NONE, 10, parent, scene);
+        this.abilityType = abilityType;
+        this.num = num;
+
+        this.row = row;
+        this.column = column;
+    }
+
+    async initialize() {
+        await super.initialize();
+        const abilityIconImage = new AbilityIconImage(this.abilityType, this, this.scene);
+        await abilityIconImage.initialize();
+        this.addChild(abilityIconImage);
+        this.abilityIconImage = abilityIconImage;
+
+        const text = StringUtils.getNthNumber(this.num, 2)
+        const abilityNumberText = new AbilityNumberText(text, this, this.scene)
+        await abilityNumberText.initialize();
+        this.addChild(abilityNumberText);
+        this.abilityNumberText = abilityNumberText;
+    }
+
+    setNum(num) {
+        this.num = num;
+        const text = StringUtils.getNthNumber(num, 2)
+        this.abilityNumberText.setText(text);
+    }
+
+    updateSize() {
+        super.updateSize();
+        const height = this.asset.height;
+        const margin = 10;
+        this.asset.y = height * this.column + margin * this.column;
+        this.position.y = this.asset.y;
+    }
+}
+
+class AbilityIconImage extends GameObject {
+    constructor (abilityType, parent, scene) {
+        super(abilityType, GameObjectType.SPRITE, new Vector2DFactory.make(0, 0), PositionBase.LEFT_TOP, 4, parent, scene);
+    }
+}
+
+class AbilityNumberText extends GameObject {
+    constructor (text, parent, scene) {
+        super(text, GameObjectType.TEXT, new Vector2DFactory.make(5, 0), PositionBase.LEFT_TOP, 4, parent, scene);
     }
 }

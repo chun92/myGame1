@@ -1,7 +1,10 @@
-import { Energy, EnergyType } from "./gameObject/energy";
+import { Energy } from "./gameObject/energy";
 import { Map } from "./gameObject/map"
 import { UpperUI } from "./ui/upperUi";
 import { PositionBase, Vector2DFactory } from "./util";
+
+import { EnergyType } from "./enums/EnergyType";
+import { AbilityType } from "./enums/AbilityType";
 
 export class Stage {
     static totalCount = 0;
@@ -14,6 +17,7 @@ export class Stage {
         this.player = null;
         this.enemies = [];
         this.energy = {};
+        this.abilities = {};
     }
 
     async test() {
@@ -61,8 +65,13 @@ export class Stage {
             }
         }
 
+        this.abilities[AbilityType.ABILITY_MOVE] = 3;
+        this.abilities[AbilityType.ABILITY_ATTACK] = 1;
+        this.abilities[AbilityType.ABILITY_DEFENSE] = 1;
+
         this.upperUi.setEnergyResourcesUI(this.energy);
         this.upperUi.setTurn(1);
+        this.upperUi.setAbilityUI(this.abilities);
     }
 
     async initialize() {

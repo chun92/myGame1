@@ -131,7 +131,7 @@ export class GameObject {
     async loadAsset() {
         const assetPath = AssetMap[this.name];
         if (!assetPath) {
-            throw new Exception("asset " + this.name + "doesn't exist");
+            throw "asset " + this.name + " doesn't exist";
         }
         const asset = await Assets.load(assetPath);
         switch (this.objectType) {
