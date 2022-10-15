@@ -8,16 +8,25 @@ export class UpperUI extends GameObject {
         
     }
 
-    setEnergyResourcesUI(energyCount) {
-        this.energyResourcesUI.updateResourceEnergies(energyCount);
-    }
-
     async initialize() {
         await super.initialize();
         const energyResourcesUI = new EnergyResourcesUI(this, this.scene);
         await energyResourcesUI.initialize();
         this.energyResourcesUI = energyResourcesUI;
         this.addChild(energyResourcesUI);
+
+        const turnUI = new TurnUI(this, this.scene);
+        await turnUI.initialize();
+        this.turnUI = turnUI;
+        this.addChild(turnUI);
+    }
+
+    setEnergyResourcesUI(energyCount) {
+        this.energyResourcesUI.updateResourceEnergies(energyCount);
+    }
+
+    setTurn(turn) {
+        this.turnUI.setTurn(turn);
     }
 }
 
@@ -56,7 +65,7 @@ class EnergyResourceUI extends GameObject {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, column * 5), PositionBase.NONE, 40, parent, scene);
+        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, column * 4), PositionBase.NONE, 40, parent, scene);
         this.energyType = energyType;
         this.num = num;
     }
@@ -91,5 +100,46 @@ class EnergyResourceImage extends GameObject {
 class EnergyResourceText extends GameObject {
     constructor (text, parent, scene) {
         super(text, GameObjectType.TEXT, new Vector2DFactory.make(5, 0), PositionBase.LEFT_TOP, 4, parent, scene);
+    }
+}
+
+class TurnUI extends GameObject {
+    constructor (parent, scene) {
+        super('turnUI', GameObjectType.CONTAINER, new Vector2DFactory.make(0, 1), PositionBase.NONE, 0, parent, scene);
+    }
+
+    async initialize() {
+        this.turn = 0;
+        await super.initialize();
+
+        const turnText = new TurnText(this, this.scene);
+        await turnText.initialize();
+        this.addChild(turnText);
+
+        const turnCount = new TurnCount('00', this, this.scene);
+        await turnCount.initialize();
+        this.addChild(turnCount);
+        this.turnCount = turnCount;
+    }
+
+    setTurn(turn) {
+        this.turn = turn;
+        const formattedNumber = myNumber.toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false
+        });
+        this.turnCount.setText(formattedNumber);
+    }
+}
+
+class TurnText extends GameObject {
+    constructor (parent, scene) {
+        super('TURN', GameObjectType.TEXT, new Vector2DFactory.make(43.5, 0), PositionBase.LEFT_TOP, 15, parent, scene);
+    }
+}
+
+class TurnCount extends GameObject {
+    constructor (text, parent, scene) {
+        super(text, GameObjectType.TEXT, new Vector2DFactory.make(43.5, 5), PositionBase.LEFT_TOP, 15, parent, scene);
     }
 }

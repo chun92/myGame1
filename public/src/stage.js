@@ -62,6 +62,7 @@ export class Stage {
         }
 
         this.upperUi.setEnergyResourcesUI(this.energy);
+        this.upperUi.setTurn(1);
     }
 
     async initialize() {
