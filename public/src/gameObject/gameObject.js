@@ -31,13 +31,13 @@ export class GameObject {
     async initialize() {
         try {
             if (this.objectType === GameObjectType.CONTAINER) {
-                this.setContainer();
+                this.createContainer();
                 this.updateSize();
             } else if (this.objectType === GameObjectType.SPRITE) {
                 await this.loadAsset();
                 this.updateSize();
             } else if (this.objectType === GameObjectType.TEXT) {
-                this.setText();
+                this.createText();
                 this.updateSize();
             }
         } catch (error) {
@@ -109,16 +109,23 @@ export class GameObject {
         }
     }
 
-    setContainer() {
+    createContainer() {
         this.asset = new Container();
         this.parent.asset.addChild(this.asset);
         this.size = this.scene.coordinateCalculator.getSize(this.sizePercent);
     }
 
-    setText() {
+    createText() {
         this.asset = new Text(this.name);
         this.parent.asset.addChild(this.asset);
         this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
+    }
+
+    setText(text) {
+        if (this.asset && this.objectType == GameObjectType.TEXT) {
+            this.asset.text = text;
+            this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
+        }
     }
     
     async loadAsset() {

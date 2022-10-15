@@ -18,14 +18,13 @@ export class Stage {
 
     async test() {
         await this.initialize();
-        //await this.addEnergyOnMap(0, 0, 0, EnergyType.ENERGY_BLUE);
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min)) + min; 
         }
 
-        for (let pos in this.map.tileMap) {
+        for (const pos in this.map.tileMap) {
             let energyType = EnergyType.ENERGY_BLACK;
             switch (getRandomInt(0, 7)) {
                 case 0:
@@ -54,14 +53,15 @@ export class Stage {
             const energy = new Energy(energyType, Vector2DFactory.make(0, 0), PositionBase.CENTER, 20, tile, this.scene);
             await energy.initialize();
             tile.setObject(energy);
+
+            if (this.energy[energyType]) {
+                this.energy[energyType]++;
+            } else {
+                this.energy[energyType] = 1;
+            }
         }
 
-        this.energy[EnergyType.ENERGY_BLACK] = 1;
-        this.energy[EnergyType.ENERGY_GREEN] = 2;
-        this.energy[EnergyType.ENERGY_BLUE] = 1;
-        this.energy[EnergyType.ENERGY_ORANGE] = 3;
-        this.energy[EnergyType.ENERGY_RED] = 4;
-        this.energy[EnergyType.ENERGY_WHITE] = 0;
+        this.upperUi.setEnergyResourcesUI(this.energy);
     }
 
     async initialize() {
@@ -74,6 +74,7 @@ export class Stage {
         const upperUi = new UpperUI(this.scene);
         await upperUi.initialize();
         this.scene.addChild(upperUi);
+        this.upperUi = upperUi;
     }
 
     async addEnergyOnMap(x, y, z, energyType) {

@@ -8,10 +8,15 @@ export class UpperUI extends GameObject {
         
     }
 
+    setEnergyResourcesUI(energyCount) {
+        this.energyResourcesUI.updateResourceEnergies(energyCount);
+    }
+
     async initialize() {
         await super.initialize();
         const energyResourcesUI = new EnergyResourcesUI(this, this.scene);
         await energyResourcesUI.initialize();
+        this.energyResourcesUI = energyResourcesUI;
         this.addChild(energyResourcesUI);
     }
 }
@@ -22,14 +27,28 @@ class EnergyResourcesUI extends GameObject {
     }
     
     async initialize() {
+        this.energyMap = {};
+        this.count = 0;
         await super.initialize();
-        const energyResourceUI = new EnergyResourceUI(EnergyType.ENERGY_BLACK, 1, 0, this, this.scene);
-        await energyResourceUI.initialize();
-        this.addChild(energyResourceUI);
+    }
 
-        const energyResourceUI1 = new EnergyResourceUI(EnergyType.ENERGY_BLUE, 1, 1, this, this.scene);
-        await energyResourceUI1.initialize();
-        this.addChild(energyResourceUI1);
+    async updateResourceEnergies(energyCount) {
+        for (const energyType in energyCount) {
+            await this.setResourceEnergy(energyType, energyCount[energyType]);
+        }
+    }
+
+    async setResourceEnergy(energyType, num) {
+        const energyUI = this.energyMap[energyType];
+        if (!energyUI) {
+            const energyResourceUI = new EnergyResourceUI(energyType, num, this.count, this, this.scene);
+            await energyResourceUI.initialize();
+            this.addChild(energyResourceUI);
+            this.energyMap[energyType] = energyResourceUI;
+            this.count++;
+        } else {
+            energyUI.setNum(num);
+        }
     }
 }
 
@@ -37,7 +56,7 @@ class EnergyResourceUI extends GameObject {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, column), PositionBase.NONE, 40, parent, scene);
+        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, column * 5), PositionBase.NONE, 40, parent, scene);
         this.energyType = energyType;
         this.num = num;
     }
@@ -47,11 +66,19 @@ class EnergyResourceUI extends GameObject {
         const energyResourceImage = new EnergyResourceImage(this.energyType, this, this.scene);
         await energyResourceImage.initialize();
         this.addChild(energyResourceImage);
+        this.energyResourceImage = energyResourceImage;
 
-        const str = 'x' + this.num;
-        const energyResourceText = new EnergyResourceText(str, this, this.scene)
+        const text = 'x' + this.num;
+        const energyResourceText = new EnergyResourceText(text, this, this.scene)
         await energyResourceText.initialize();
         this.addChild(energyResourceText);
+        this.energyResourceText = energyResourceText;
+    }
+
+    setNum(num) {
+        this.num = num;
+        const text = 'x' + num;
+        this.energyResourceText.setText(text);
     }
 }
 

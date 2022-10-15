@@ -10,6 +10,4 @@ export const AssetMap = {
     'tile': 'assets/sprites/hexagon_black.png',
     'enemy': 'assets/sprites/enemy.png',
     'player': 'assets/sprites/player.png',
-
-    'energy_resources_image': 'assets/sprites/energy_black.png',
 }
