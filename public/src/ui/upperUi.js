@@ -103,7 +103,7 @@ class EnergyResourceUI extends GameObject {
 
     updateSize() {
         super.updateSize();
-        const height = this.asset.height;
+        const height = this.size.y;
         const margin = 10;
         this.asset.y = height * this.column + margin * this.column;
         this.position.y = this.asset.y;
@@ -223,7 +223,7 @@ class AbilityUI extends GameObject {
 
     updateSize() {
         super.updateSize();
-        const height = this.asset.height;
+        const height = this.size.y;
         const margin = 10;
         this.asset.y = height * this.column + margin * this.column;
         this.position.y = this.asset.y;
