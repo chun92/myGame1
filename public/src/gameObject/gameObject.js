@@ -90,14 +90,21 @@ export class GameObject {
         if (this.objectType === GameObjectType.CONTAINER) {
             const position = coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y);
             this.position = position;
-            this.asset.position.x = position.x;
-            this.asset.position.y = position.y;
         } else {
             const position = coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y, this.position);
             this.position = position;
-            this.asset.position.x = position.x;
-            this.asset.position.y = position.y;
         }
+
+        if (this.fixedPositionX) {
+            this.position.x = this.fixedPositionX;
+        }
+
+        if (this.fixedPositionY) {
+            this.position.y = this.fixedPositionY;
+        }
+
+        this.asset.position.x = this.position.x;
+        this.asset.position.y = this.position.y;
     }
 
     setAnchor(positionBase) {

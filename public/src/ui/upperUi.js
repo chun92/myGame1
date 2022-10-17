@@ -80,11 +80,14 @@ class EnergyResourceUI extends GameObject {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        const heightMax = coordinateCalculator.getSize(4).y;
+        const heightMax = coordinateCalculator.getSize(4).x;
+        const margin = 10;
+        const fixedPositionY = column * (heightMax + margin);
         super('energyResourcesUI', GameObjectType.CONTAINER, parent, scene, { 
             positionPercent: new Vector2DFactory.make(row * 10, 0),
             sizePercent: 10,
-            heightMax: heightMax
+            heightMax: heightMax,
+            fixedPositionY: fixedPositionY,
         });
 
         this.energyType = energyType;
@@ -92,7 +95,6 @@ class EnergyResourceUI extends GameObject {
 
         this.row = row;
         this.column = column;
-        this.heightMax = heightMax;
     }
 
     async initialize() {
@@ -115,12 +117,11 @@ class EnergyResourceUI extends GameObject {
         this.energyResourceText.setText(text);
     }
 
-    updateSize() {
-        super.updateSize();
-        const height = this.size.y;
+    resize() {
+        this.heightMax = coordinateCalculator.getSize(4).x;
         const margin = 10;
-        this.asset.y = height * this.column + margin * this.column;
-        this.position.y = this.asset.y;
+        this.fixedPositionY = this.column * (this.heightMax + margin);
+        super.resize();
     }
 }
 
@@ -230,11 +231,14 @@ class AbilityUI extends GameObject {
     constructor (abilityType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        const heightMax = coordinateCalculator.getSize(4).y;
+        const heightMax = coordinateCalculator.getSize(4).x;
+        const margin = 10;
+        const fixedPositionY = column * (heightMax + margin);
         super('abilityUI', GameObjectType.CONTAINER, parent, scene, {
             positionPercent: new Vector2DFactory.make(row * 10, 0), 
             sizePercent: 10, 
             heightMax: heightMax,
+            fixedPositionY: fixedPositionY
         });
 
         this.abilityType = abilityType;
@@ -265,12 +269,11 @@ class AbilityUI extends GameObject {
         this.abilityNumberText.setText(text);
     }
 
-    updateSize() {
-        super.updateSize();
-        const height = this.size.y;
+    resize() {
+        this.heightMax = coordinateCalculator.getSize(4).x;
         const margin = 10;
-        this.asset.y = height * this.column + margin * this.column;
-        this.position.y = this.asset.y;
+        this.fixedPositionY = this.column * (this.heightMax + margin);
+        super.resize();
     }
 }
 
