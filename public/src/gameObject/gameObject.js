@@ -57,8 +57,8 @@ export class GameObject {
             return size;
         }
 
-        const x = size.x * size.y / y;
-        return makeFromContainer(x, y);
+        const x = size.x / size.y * y;
+        return Vector2DFactory.make(x, y);
     }
 
     updateSize() {

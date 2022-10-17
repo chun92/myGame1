@@ -1,4 +1,5 @@
 import { GameObject, GameObjectType } from "../gameObject/gameObject";
+import coordinateCalculator from "../util/coordinateCalculator";
 import { PositionBase, StringUtils, Vector2DFactory } from "../util/util";
 
 export class UpperUI extends GameObject {
@@ -79,9 +80,11 @@ class EnergyResourceUI extends GameObject {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
+        const heightMax = coordinateCalculator.getSize(4).y;
         super('energyResourcesUI', GameObjectType.CONTAINER, parent, scene, { 
             positionPercent: new Vector2DFactory.make(row * 10, 0),
-            sizePercent: 10
+            sizePercent: 10,
+            heightMax: heightMax
         });
 
         this.energyType = energyType;
@@ -89,17 +92,18 @@ class EnergyResourceUI extends GameObject {
 
         this.row = row;
         this.column = column;
+        this.heightMax = heightMax;
     }
 
     async initialize() {
         await super.initialize();
-        const energyResourceImage = new EnergyResourceImage(this.energyType, this, this.scene);
+        const energyResourceImage = new EnergyResourceImage(this.energyType, this.heightMax, this, this.scene);
         await energyResourceImage.initialize();
         this.addChild(energyResourceImage);
         this.energyResourceImage = energyResourceImage;
 
         const text = 'x' + this.num;
-        const energyResourceText = new EnergyResourceText(text, this, this.scene)
+        const energyResourceText = new EnergyResourceText(text, this.heightMax, this, this.scene)
         await energyResourceText.initialize();
         this.addChild(energyResourceText);
         this.energyResourceText = energyResourceText;
@@ -121,21 +125,23 @@ class EnergyResourceUI extends GameObject {
 }
 
 class EnergyResourceImage extends GameObject {
-    constructor (energyType, parent, scene) {
+    constructor (energyType, heightMax, parent, scene) {
         super(energyType, GameObjectType.SPRITE, parent, scene, { 
             positionPercent: new Vector2DFactory.make(0, 0),
             positionBase: PositionBase.LEFT_TOP,
-            sizePercent: 4
+            sizePercent: 4,
+            heightMax: heightMax,
         });
     }
 }
 
 class EnergyResourceText extends GameObject {
-    constructor (text, parent, scene) {
+    constructor (text, heightMax, parent, scene) {
         super(text, GameObjectType.TEXT, parent, scene, { 
             positionPercent: new Vector2DFactory.make(5, 0),
             positionBase: PositionBase.LEFT_TOP,
-            sizePercent: 4
+            sizePercent: 4,
+            heightMax: heightMax,
         });
     }
 }
@@ -224,9 +230,11 @@ class AbilityUI extends GameObject {
     constructor (abilityType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
+        const heightMax = coordinateCalculator.getSize(4).y;
         super('abilityUI', GameObjectType.CONTAINER, parent, scene, {
             positionPercent: new Vector2DFactory.make(row * 10, 0), 
             sizePercent: 10, 
+            heightMax: heightMax,
         });
 
         this.abilityType = abilityType;
@@ -234,17 +242,18 @@ class AbilityUI extends GameObject {
 
         this.row = row;
         this.column = column;
+        this.heightMax = heightMax;
     }
 
     async initialize() {
         await super.initialize();
-        const abilityIconImage = new AbilityIconImage(this.abilityType, this, this.scene);
+        const abilityIconImage = new AbilityIconImage(this.abilityType, this.heightMax, this, this.scene);
         await abilityIconImage.initialize();
         this.addChild(abilityIconImage);
         this.abilityIconImage = abilityIconImage;
 
         const text = StringUtils.getNthNumber(this.num, 2)
-        const abilityNumberText = new AbilityNumberText(text, this, this.scene)
+        const abilityNumberText = new AbilityNumberText(text, this.heightMax, this, this.scene)
         await abilityNumberText.initialize();
         this.addChild(abilityNumberText);
         this.abilityNumberText = abilityNumberText;
@@ -266,21 +275,23 @@ class AbilityUI extends GameObject {
 }
 
 class AbilityIconImage extends GameObject {
-    constructor (abilityType, parent, scene) {
+    constructor (abilityType, heightMax, parent, scene) {
         super(abilityType, GameObjectType.SPRITE, parent, scene, {
             positionPercent: new Vector2DFactory.make(0, 0), 
             positionBase: PositionBase.LEFT_TOP, 
-            sizePercent: 4, 
+            sizePercent: 4,
+            heightMax: heightMax,
         });
     }
 }
 
 class AbilityNumberText extends GameObject {
-    constructor (text, parent, scene) {
+    constructor (text, heightMax, parent, scene) {
         super(text, GameObjectType.TEXT, parent, scene, {
             positionPercent: new Vector2DFactory.make(5, 0), 
             positionBase: PositionBase.LEFT_TOP, 
             sizePercent: 4, 
+            heightMax: heightMax,
         });
     }
 }
