@@ -3,7 +3,10 @@ import { PositionBase, StringUtils, Vector2DFactory } from "../util";
 
 export class UpperUI extends GameObject {
     constructor (scene) {
-        super('upperUI', GameObjectType.CONTAINER, new Vector2DFactory.make(0, 0), PositionBase.NONE, 100, scene, scene);
+        super('upperUI', GameObjectType.CONTAINER, scene, scene, { 
+            positionPercent: new Vector2DFactory.make(0, 0),
+            sizePercent: 100
+        });
         
     }
 
@@ -40,7 +43,10 @@ export class UpperUI extends GameObject {
 
 class EnergyResourcesUI extends GameObject {
     constructor (parent, scene) {
-        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(1, 1), PositionBase.NONE, 40, parent, scene);
+        super('energyResourcesUI', GameObjectType.CONTAINER, parent, scene, { 
+            positionPercent: new Vector2DFactory.make(1, 1),
+            sizePercent: 40
+        });
     }
     
     async initialize() {
@@ -73,7 +79,11 @@ class EnergyResourceUI extends GameObject {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        super('energyResourcesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, 0), PositionBase.NONE, 10, parent, scene);
+        super('energyResourcesUI', GameObjectType.CONTAINER, parent, scene, { 
+            positionPercent: new Vector2DFactory.make(row * 10, 0),
+            sizePercent: 10
+        });
+
         this.energyType = energyType;
         this.num = num;
 
@@ -112,19 +122,29 @@ class EnergyResourceUI extends GameObject {
 
 class EnergyResourceImage extends GameObject {
     constructor (energyType, parent, scene) {
-        super(energyType, GameObjectType.SPRITE, new Vector2DFactory.make(0, 0), PositionBase.LEFT_TOP, 4, parent, scene);
+        super(energyType, GameObjectType.SPRITE, parent, scene, { 
+            positionPercent: new Vector2DFactory.make(0, 0),
+            positionBase: PositionBase.LEFT_TOP,
+            sizePercent: 4
+        });
     }
 }
 
 class EnergyResourceText extends GameObject {
     constructor (text, parent, scene) {
-        super(text, GameObjectType.TEXT, new Vector2DFactory.make(5, 0), PositionBase.LEFT_TOP, 4, parent, scene);
+        super(text, GameObjectType.TEXT, parent, scene, { 
+            positionPercent: new Vector2DFactory.make(5, 0),
+            positionBase: PositionBase.LEFT_TOP,
+            sizePercent: 4
+        });
     }
 }
 
 class TurnUI extends GameObject {
     constructor (parent, scene) {
-        super('turnUI', GameObjectType.CONTAINER, new Vector2DFactory.make(0, 1), PositionBase.NONE, 0, parent, scene);
+        super('turnUI', GameObjectType.CONTAINER, parent, scene, {
+            positionPercent: new Vector2DFactory.make(0, 1),
+        });
     }
 
     async initialize() {
@@ -149,18 +169,29 @@ class TurnUI extends GameObject {
 
 class TurnText extends GameObject {
     constructor (parent, scene) {
-        super('TURN', GameObjectType.TEXT, new Vector2DFactory.make(42.5, 0), PositionBase.LEFT_TOP, 15, parent, scene);
+        super('TURN', GameObjectType.TEXT, parent, scene, {
+            positionPercent: new Vector2DFactory.make(42.5, 0), 
+            positionBase: PositionBase.LEFT_TOP, 
+            sizePercent: 15, 
+        });
     }
 }
 
 class TurnCount extends GameObject {
     constructor (text, parent, scene) {
-        super(text, GameObjectType.TEXT, new Vector2DFactory.make(45, 6), PositionBase.LEFT_TOP, 10, parent, scene);
+        super(text, GameObjectType.TEXT, parent, scene, {
+            positionPercent: new Vector2DFactory.make(45, 6),
+            positionBase: PositionBase.LEFT_TOP, 
+            sizePercent: 10, 
+        });
     }
 }
 class AbilitiesUI extends GameObject {
     constructor (parent, scene) {
-        super('abilitiesUI', GameObjectType.CONTAINER, new Vector2DFactory.make(59, 1), PositionBase.NONE, 40, parent, scene);
+        super('abilitiesUI', GameObjectType.CONTAINER, parent, scene, {
+            positionPercent: new Vector2DFactory.make(59, 1), 
+            sizePercent: 40,
+        });
     }
     
     async initialize() {
@@ -193,7 +224,11 @@ class AbilityUI extends GameObject {
     constructor (abilityType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        super('abilityUI', GameObjectType.CONTAINER, new Vector2DFactory.make(row * 10, 0), PositionBase.NONE, 10, parent, scene);
+        super('abilityUI', GameObjectType.CONTAINER, parent, scene, {
+            positionPercent: new Vector2DFactory.make(row * 10, 0), 
+            sizePercent: 10, 
+        });
+
         this.abilityType = abilityType;
         this.num = num;
 
@@ -232,12 +267,20 @@ class AbilityUI extends GameObject {
 
 class AbilityIconImage extends GameObject {
     constructor (abilityType, parent, scene) {
-        super(abilityType, GameObjectType.SPRITE, new Vector2DFactory.make(0, 0), PositionBase.LEFT_TOP, 4, parent, scene);
+        super(abilityType, GameObjectType.SPRITE, parent, scene, {
+            positionPercent: new Vector2DFactory.make(0, 0), 
+            positionBase: PositionBase.LEFT_TOP, 
+            sizePercent: 4, 
+        });
     }
 }
 
 class AbilityNumberText extends GameObject {
     constructor (text, parent, scene) {
-        super(text, GameObjectType.TEXT, new Vector2DFactory.make(5, 0), PositionBase.LEFT_TOP, 4, parent, scene);
+        super(text, GameObjectType.TEXT, parent, scene, {
+            positionPercent: new Vector2DFactory.make(5, 0), 
+            positionBase: PositionBase.LEFT_TOP, 
+            sizePercent: 4, 
+        });
     }
 }

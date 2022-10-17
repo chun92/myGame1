@@ -54,7 +54,11 @@ export class Stage {
                     break;
             }
             const tile = this.map.tileMap[pos];
-            const energy = new Energy(energyType, Vector2DFactory.make(0, 0), PositionBase.CENTER, 20, tile, this.scene);
+            const energy = new Energy(energyType, tile, this.scene, {
+                positionPercent: Vector2DFactory.make(0, 0), 
+                positionBase: PositionBase.CENTER, 
+                sizePercent: 20,
+            });
             await energy.initialize();
             tile.setObject(energy);
 
@@ -76,7 +80,7 @@ export class Stage {
 
     async initialize() {
         // TODO: stage info will be saved as json or xml file format later
-        const map = new Map(100, this.scene);
+        const map = new Map(this.scene);
         await map.initialize(3);
         this.scene.addChild(map);
         this.map = map;
@@ -98,8 +102,12 @@ export class Stage {
             console.warn("addEnergyOnMap failed, because there's object on tile at  " + Map.getTileKey(x, y, z));
             return;
         }
-
-        const energy = new Energy(energyType, Vector2DFactory.make(0, 0), PositionBase.CENTER, 10, tile, this.scene);
+        
+        const energy = new Energy(energyType, tile, this.scene, {
+            positionPercent: Vector2DFactory.make(0, 0), 
+            positionBase: PositionBase.CENTER, 
+            sizePercent: 10,
+        });
         await energy.initialize();
         tile.setObject(energy);
     }

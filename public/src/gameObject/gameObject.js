@@ -11,14 +11,15 @@ export const GameObjectType = Object.freeze({
 
 export class GameObject {
     static count = 0;
-    constructor (name, objectType, positionPercent, positionBase, sizePercent, parent, scene) {
+    constructor (name, objectType, parent, scene, option) {
         GameObject.count++;
         this.id = GameObject.count;
         this.name = name;
         this.objectType = objectType;
-        this.positionPercent = positionPercent;
-        this.positionBase = positionBase;
-        this.sizePercent = sizePercent;
+        this.positionPercent = option.positionPercent || Vector2DFactory.make(0, 0);
+        this.positionBase = option.positionBase || PositionBase.NONE;
+        this.sizePercent = option.sizePercent || 0;
+        this.heightMax = option.heightMax || 0;
 
         this.postion;
         this.size;
