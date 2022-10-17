@@ -1,5 +1,5 @@
 import { GameObject, GameObjectType } from "./gameObject";
-import { PositionBase } from "../util";
+import { PositionBase } from "../util/util";
 
 const tileMagin = 1;
 export class Tile extends GameObject {

@@ -1,5 +1,5 @@
 import { GameObject, GameObjectType } from "../gameObject/gameObject";
-import { PositionBase, StringUtils, Vector2DFactory } from "../util";
+import { PositionBase, StringUtils, Vector2DFactory } from "../util/util";
 
 export class UpperUI extends GameObject {
     constructor (scene) {

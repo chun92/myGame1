@@ -146,54 +146,6 @@ export const PositionBase = Object.freeze({
     NONE: 'none'
 });
 
-export class CoordinateCalculator {
-    constructor(width, height) {
-        this.width = width;
-        this.height = height;
-        this.prevWidth = 0;
-        this.prevHeight = 0;
-    }
-
-    getPosition(xPercent, yPercent) {
-        const x = this.width/100.0 * xPercent;
-        const y = this.height/100.0 * yPercent;
-        return new Vector2D(x, y);
-    }
-
-    setSize(width, height) {
-        this.prevWidth = this.width;
-        this.prevHeight = this.height;
-        this.width = width;
-        this.height = height;
-        this.ratioChanged = this.width / this.prevWidth;
-    }
-
-    getSize(percent, original) {
-        if (original) {
-            const ratio = this.width / 100;
-            const width = ratio * percent;
-            const height = original.y / original.x * width;
-            return new Vector2D(width, height);
-        } else {
-            const width = this.width * percent / 100;
-            const height = this.height * percent / 100;
-            return new Vector2D(width, height);
-        }
-    }
-
-    getTargetPosition(xPercent, yPercent, original) {
-        if (original) {
-            const x = original.x * this.ratioChanged;
-            const y = original.y * this.ratioChanged;
-            return new Vector2D(x, y);
-        } else {
-            const x = this.width/100.0 * xPercent;
-            const y = this.height/100.0 * yPercent;
-            return new Vector2D(x, y);
-        }
-    }
-}
-
 export class StringUtils {
     static getNthNumber(number, digit) {
         return number.toLocaleString('en-US', {

@@ -1,7 +1,8 @@
-import { Vector2DFactory, PositionBase } from "../util";
+import { Vector2DFactory, PositionBase } from "../util/util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { Container, Sprite, Text } from "pixi.js";
+import coordinateCalculator from "../util/coordinateCalculator"
 
 export const GameObjectType = Object.freeze({
     SPRITE: "sprite",
@@ -61,7 +62,6 @@ export class GameObject {
     }
 
     updateSize() {
-        const coordinateCalculator = this.scene.coordinateCalculator;
         if (this.objectType === GameObjectType.CONTAINER) {
             let size = coordinateCalculator.getSize(this.sizePercent, this.size);
             if (this.heightMax) {
@@ -135,7 +135,7 @@ export class GameObject {
     createContainer() {
         this.asset = new Container();
         this.parent.asset.addChild(this.asset);
-        this.size = this.scene.coordinateCalculator.getSize(this.sizePercent);
+        this.size = coordinateCalculator.getSize(this.sizePercent);
     }
 
     createText() {

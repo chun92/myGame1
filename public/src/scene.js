@@ -1,5 +1,6 @@
 import { Container } from "pixi.js";
-import { Vector2DFactory, CoordinateCalculator } from "./util";
+import { Vector2DFactory } from "./util/util";
+import coordinateCalculator from "./util/coordinateCalculator"
 
 export class Scene {
     static count = 0;
@@ -11,12 +12,12 @@ export class Scene {
         this.children = [];
 
         const sceneSize = Vector2DFactory.make(width, height);
-        this.coordinateCalculator = new CoordinateCalculator(sceneSize.x, sceneSize.y);
+        coordinateCalculator.setSize(sceneSize.x, sceneSize.y);
         this.size = sceneSize;
     }
 
     resize(width, height) {
-        this.coordinateCalculator.setSize(width, height);
+        coordinateCalculator.setSize(width, height);
         this.children.forEach((child) => {
             child.resize();
         });

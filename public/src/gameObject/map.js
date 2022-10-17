@@ -1,5 +1,5 @@
 import { GameObject, GameObjectType } from "./gameObject";
-import { PositionBase, Vector2DFactory, VectorHexagonFactory } from "../util";
+import { Vector2DFactory, VectorHexagonFactory } from "../util/util";
 import { Tile } from "./tile";
 
 export class Map extends GameObject {
