@@ -19,7 +19,9 @@ export class GameObject {
         this.positionPercent = option.positionPercent || Vector2DFactory.make(0, 0);
         this.positionBase = option.positionBase || PositionBase.NONE;
         this.sizePercent = option.sizePercent || 0;
-        this.heightMax = option.heightMax || 0;
+        this.heightMax = option.heightMax;
+        this.fixedPositionX = option.fixedPositionX;
+        this.fixedPositionY = option.fixedPositionY;
 
         this.postion;
         this.size;
@@ -33,35 +35,55 @@ export class GameObject {
         try {
             if (this.objectType === GameObjectType.CONTAINER) {
                 this.createContainer();
-                this.updateSize();
             } else if (this.objectType === GameObjectType.SPRITE) {
                 await this.loadAsset();
-                this.updateSize();
             } else if (this.objectType === GameObjectType.TEXT) {
                 this.createText();
-                this.updateSize();
             }
+            this.updateSize();
         } catch (error) {
             console.error(error);
         }
     }
 
+    getSizeWithHeightMax(size) {
+        const y = this.heightMax;
+        if (!y) {
+            return size;
+        }
+
+        if (size.y <= y) {
+            return size;
+        }
+
+        const x = size.x * size.y / y;
+        return makeFromContainer(x, y);
+    }
+
     updateSize() {
         const coordinateCalculator = this.scene.coordinateCalculator;
         if (this.objectType === GameObjectType.CONTAINER) {
-            const size = coordinateCalculator.getSize(this.sizePercent, this.size);
+            let size = coordinateCalculator.getSize(this.sizePercent, this.size);
+            if (this.heightMax) {
+                if (size.y > this.heightMax) {
+                    size.y = this.heightMax;
+                }
+            }
             this.size = size;
         } else {
             this.setAnchor(this.positionBase);
             if (!this.parent || this.parent.objectType === GameObjectType.CONTAINER) {
                 const size = coordinateCalculator.getSize(this.sizePercent, this.size);
-                this.size = size;
+                this.size = this.getSizeWithHeightMax(size);
                 this.asset.width = size.x;
                 this.asset.height = size.y;
             } else {
-                this.asset.scale.x = this.sizePercent / 100;
-                this.asset.scale.y = this.sizePercent / 100;
-                this.size = Vector2DFactory.makeFromContainer(this.asset);
+                const x = this.asset.width * this.sizePercent / 100;
+                const y = this.asset.height * this.sizePercent / 100;
+                const size = this.getSizeWithHeightMax(Vector2DFactory.make(x, y));
+                this.size = size;
+                this.asset.width = size.x;
+                this.asset.height = size.y;
             }
         }
 
