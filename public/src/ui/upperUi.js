@@ -161,8 +161,11 @@ class TurnUI extends GameObject {
         const turnText = new TurnText(this, this.scene);
         await turnText.initialize();
         this.addChild(turnText);
+        this.turnText = turnText;
 
-        const turnCount = new TurnCount(StringUtils.getNthNumber(0, 2), this, this.scene);
+        const pos = turnText.size.y;
+
+        const turnCount = new TurnCount(StringUtils.getNthNumber(0, 2), pos, this, this.scene);
         await turnCount.initialize();
         this.addChild(turnCount);
         this.turnCount = turnCount;
@@ -171,6 +174,12 @@ class TurnUI extends GameObject {
     setTurn(turn) {
         this.turn = turn;
         this.turnCount.setText(StringUtils.getNthNumber(turn, 2));
+    }
+
+    resize() {
+        const pos = coordinateCalculator.getSize(this.turnText.size).y;
+        this.turnCount.fixedPositionY = pos;
+        super.resize();
     }
 }
 
@@ -185,11 +194,12 @@ class TurnText extends GameObject {
 }
 
 class TurnCount extends GameObject {
-    constructor (text, parent, scene) {
+    constructor (text, fixedPositionY, parent, scene) {
         super(text, GameObjectType.TEXT, parent, scene, {
-            positionPercent: new Vector2DFactory.make(45, 6),
+            positionPercent: new Vector2DFactory.make(45, 0),
             positionBase: PositionBase.LEFT_TOP, 
             sizePercent: 10, 
+            fixedPositionY: fixedPositionY,
         });
     }
 }
