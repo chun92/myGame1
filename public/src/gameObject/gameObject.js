@@ -78,9 +78,9 @@ export class GameObject {
                 this.asset.width = size.x;
                 this.asset.height = size.y;
             } else {
-                const x = this.asset.width * this.sizePercent / 100;
-                const y = this.asset.height * this.sizePercent / 100;
-                const size = this.getSizeWithHeightMax(Vector2DFactory.make(x, y));
+                this.asset.scale.x = this.sizePercent / 100;
+                this.asset.scale.y = this.sizePercent / 100;
+                const size = this.getSizeWithHeightMax(Vector2DFactory.makeFromContainer(this.asset));
                 this.size = size;
                 this.asset.width = size.x;
                 this.asset.height = size.y;
