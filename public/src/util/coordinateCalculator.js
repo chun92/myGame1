@@ -17,8 +17,8 @@ class CoordinateCalculator {
     }
 
     getPosition(xPercent, yPercent) {
-        const x = this.width/100.0 * xPercent;
-        const y = this.height/100.0 * yPercent;
+        const x = this.width / 100.0 * xPercent;
+        const y = this.height / 100.0 * yPercent;
         return Vector2DFactory.make(x, y);
     }
 

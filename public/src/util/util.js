@@ -6,7 +6,7 @@ export const Vector2DFactory = {
         return new Vector2D(container.width, container.height);
     }
 }
-export class Vector2D {
+class Vector2D {
     constructor(x, y) {
         this.x = x;
         this.y = y;
