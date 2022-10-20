@@ -3,8 +3,8 @@ import { Map } from "./gameObject/map"
 import { UpperUI } from "./ui/upperUi";
 import { PositionBase, Vector2DFactory } from "./util/util";
 
-import { EnergyType } from "./enums/EnergyType";
-import { AbilityType } from "./enums/AbilityType";
+import { EnergyType } from "./enums/energyType";
+import { AbilityType } from "./enums/abilityType";
 
 export class Stage {
     static totalCount = 0;

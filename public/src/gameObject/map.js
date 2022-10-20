@@ -12,11 +12,83 @@ export class Map extends GameObject {
 
     async initialize(tileRingSize) {
         await super.initialize();
+
         const numOfTiles = tileRingSize * 2 - 1;
         const radius = 100.0 / numOfTiles;
         this.tileMap = {};
 
         await this.setTiles(tileRingSize, radius);
+
+        this.tileMovePreview = [];
+
+        this.asset.addListener('tiledown', (vectorHexagon) => {
+            this.initStep(vectorHexagon);
+        });
+
+        this.asset.addListener('tileover', (vectorHexagon) => {
+            this.stepTo(vectorHexagon);
+        });
+
+        this.asset.addListener('tileup', (vectorHexagon) => {
+            this.endStep(vectorHexagon);
+        });
+
+        this.asset.addListener('tileupoutside', (vectorHexagon) => {
+            this.cancelStep(vectorHexagon);
+        });
+    }
+
+    initStep(vectorHexagon) {
+        this.tileMovePreview = [];
+        this.activeTile(vectorHexagon);
+        this.tileMovePreview.push(vectorHexagon);
+    }
+
+    stepTo(vectorHexagon) {
+        if (this.tileMovePreview.length > 0) {
+            const index = this.tileMovePreview.indexOf(vectorHexagon);
+            if (index == -1) {
+                this.activeTile(vectorHexagon);
+                this.tileMovePreview.push(vectorHexagon);
+            } else {
+                const saved = this.tileMovePreview.slice(0, index + 1);
+                const discarded = this.tileMovePreview.slice(index + 1);
+                for (const tile in discarded) {
+                    this.deactivateTile(discarded[tile]);
+                }
+                this.tileMovePreview = saved;
+            }
+        }
+    }
+
+    cancelStep(vectorHexagon) {
+        // TODO: 
+        /*
+        console.log('cancelStep', vectorHexagon);
+        this.tileMovePreview = [];
+        console.log(this.tileMovePreview);
+        */
+    }
+
+    endStep(vectorHexagon) {
+        for (const tile in this.tileMovePreview) {
+            this.deactivateTile(this.tileMovePreview[tile]);
+        }
+        this.tileMovePreview = [];
+    }
+
+    activeTile(vectorHexagon) {
+        const tile = this.getTile(vectorHexagon.x, vectorHexagon.y, vectorHexagon.z);
+        if (tile) {
+            tile.asset.tint = 0x90EE90;
+        }
+    }
+
+    deactivateTile(vectorHexagon) {
+        const tile = this.getTile(vectorHexagon.x, vectorHexagon.y, vectorHexagon.z);
+        if (tile) {
+            tile.asset.tint = 0xFFFFFF;
+        }
     }
 
     static getTileKey(x, y, z) {
