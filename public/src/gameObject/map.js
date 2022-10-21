@@ -25,10 +25,6 @@ export class Map extends GameObject {
             this.initStep(vectorHexagon);
         });
 
-        this.asset.addListener('tileover', (vectorHexagon) => {
-            this.stepTo(vectorHexagon);
-        });
-
         this.asset.addListener('tileup', (vectorHexagon) => {
             this.endStep(vectorHexagon);
         });
@@ -36,11 +32,21 @@ export class Map extends GameObject {
         this.asset.addListener('tileupoutside', (vectorHexagon) => {
             this.cancelStep(vectorHexagon);
         });
+
+        this.asset.addListener('tileenter', (vectorHexagon) => {
+            this.stepTo(vectorHexagon);
+        });
+
+        this.asset.addListener('tileleave', (vectorHexagon) => {
+            this.stepDone(vectorHexagon);
+        });
     }
 
     initStep(vectorHexagon) {
         this.tileMovePreview = [];
+        this.currentTile = vectorHexagon;
         this.activeTile(vectorHexagon);
+        this.stepFinished = false;
         this.tileMovePreview.push(vectorHexagon);
     }
 
@@ -58,23 +64,36 @@ export class Map extends GameObject {
                 }
                 this.tileMovePreview = saved;
             }
+            this.currentTile = vectorHexagon;
         }
+    }
+
+    stepDone(vectorHexagon) {
+        this.currentTile = null;
     }
 
     cancelStep(vectorHexagon) {
-        // TODO: 
-        /*
-        console.log('cancelStep', vectorHexagon);
-        this.tileMovePreview = [];
-        console.log(this.tileMovePreview);
-        */
+        if (!this.stepFinished && !this.currentTile) {
+            for (const tile in this.tileMovePreview) {
+                this.deactivateTile(this.tileMovePreview[tile]);
+            }
+            this.tileMovePreview = [];
+            this.currentTile = null;
+            this.stepFinished = true;
+            console.log('cancelStep', vectorHexagon);
+        }
     }
 
     endStep(vectorHexagon) {
-        for (const tile in this.tileMovePreview) {
-            this.deactivateTile(this.tileMovePreview[tile]);
+        if (this.tileMovePreview.length > 0) {
+            for (const tile in this.tileMovePreview) {
+                this.deactivateTile(this.tileMovePreview[tile]);
+            }
+            this.tileMovePreview = [];
+            this.currentTile = null;
+            this.stepFinished = true;
+            console.log('endStep', vectorHexagon);
         }
-        this.tileMovePreview = [];
     }
 
     activeTile(vectorHexagon) {

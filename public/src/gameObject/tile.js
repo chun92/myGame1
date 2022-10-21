@@ -30,8 +30,12 @@ export class Tile extends GameObject {
             this.parent.asset.emit('tileupoutside', this.vectorHexagon);
         });
 
-        this.asset.on('pointerover', () => {
-            this.parent.asset.emit('tileover', this.vectorHexagon);
+        this.asset.on('pointerenter', () => {
+            this.parent.asset.emit('tileenter', this.vectorHexagon);
+        });
+
+        this.asset.on('pointerleave', () => {
+            this.parent.asset.emit('tileleave', this.vectorHexagon);
         });
 
         this.asset.interactive = true;
