@@ -1,15 +1,8 @@
-import { Application } from 'pixi.js'
+import { Application, extensions, InteractionManager } from 'pixi.js'
+import { EventSystem } from '@pixi/events'
 import * as PIXI from 'pixi.js';
 
 class GameManager {
-    constructor() {
-        this.instance = null;
-        this.app = null;
-        this.width = null;
-        this.height = null;
-        this.currentScene = null;
-    }
-
     static getInstance() {
         if (!this.instance) {
             this.instance = new GameManager();
@@ -26,6 +19,8 @@ class GameManager {
         this.width = window.screen.width;
         this.height = window.screen.height;
 
+        extensions.remove(InteractionManager);
+
         this.app = new Application({
             view: document.getElementById("pixi-canvas"),
             resolution: window.devicePixelRatio || 1,
@@ -33,6 +28,9 @@ class GameManager {
             backgroundColor: 0xffffff,
             resizeTo: window
         });
+
+        const { renderer } = this.app;
+        renderer.addSystem(EventSystem, 'events');
 
         this.registerPixiInspector();
 
