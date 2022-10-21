@@ -51,7 +51,14 @@ export class Map extends GameObject {
     }
 
     stepTo(vectorHexagon) {
-        if (this.tileMovePreview.length > 0) {
+        const numOfTiles = this.tileMovePreview.length;
+        if (numOfTiles > 0) {
+            const lastTile = this.tileMovePreview[numOfTiles - 1];
+            if (vectorHexagon.getLength(lastTile) != 1) {
+                this.cancelStep(vectorHexagon);
+                return;
+            }
+
             const index = this.tileMovePreview.indexOf(vectorHexagon);
             if (index == -1) {
                 this.activeTile(vectorHexagon);
@@ -80,7 +87,6 @@ export class Map extends GameObject {
             this.tileMovePreview = [];
             this.currentTile = null;
             this.stepFinished = true;
-            console.log('cancelStep', vectorHexagon);
         }
     }
 
@@ -92,7 +98,6 @@ export class Map extends GameObject {
             this.tileMovePreview = [];
             this.currentTile = null;
             this.stepFinished = true;
-            console.log('endStep', vectorHexagon);
         }
     }
 
