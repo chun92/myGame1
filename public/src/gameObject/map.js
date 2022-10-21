@@ -76,7 +76,9 @@ export class Map extends GameObject {
     }
 
     stepDone(vectorHexagon) {
-        this.currentTile = null;
+        if (this.currentTile == vectorHexagon) {
+            this.currentTile = null;
+        }
     }
 
     cancelStep(vectorHexagon) {

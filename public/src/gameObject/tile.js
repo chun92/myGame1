@@ -38,20 +38,9 @@ export class Tile extends GameObject {
             this.parent.asset.emit('tileleave', this.vectorHexagon);
         });
 
+        this.setHitArea();
         this.asset.interactive = true;
 
-        const r = this.asset.width / this.asset.scale.x / 2;
-        const root3_div2 = Math.pow(3, 0.5) / 2;
-
-        const polygon = new Polygon([
-            -r, 0,
-            -1 / 2 * r, root3_div2 * r,
-            1 / 2 * r, root3_div2 * r,
-            r, 0,
-            1 / 2 * r, -root3_div2 * r,
-            -1 / 2 * r, -root3_div2 * r,
-        ]);
-        this.asset.hitArea = polygon;
     }
 
     setObject(obj) {
@@ -63,10 +52,10 @@ export class Tile extends GameObject {
         return this.object;
     }
 
-    resize() {
-        super.resize();
-        const r = this.asset.width / this.asset.scale.x / 2;
+    setHitArea() {
+        const r = this.asset.width / this.asset.scale.x / 2 + tileMagin;
         const root3_div2 = Math.pow(3, 0.5) / 2;
+
         const polygon = new Polygon([
             -r, 0,
             -1 / 2 * r, root3_div2 * r,
@@ -76,5 +65,10 @@ export class Tile extends GameObject {
             -1 / 2 * r, -root3_div2 * r,
         ]);
         this.asset.hitArea = polygon;
+    }
+
+    resize() {
+        super.resize();
+        this.setHitArea();
     }
 }
