@@ -105,7 +105,6 @@ export class GameObject {
                 const height = width * ratio;
                 const size = this.getSizeWithHeightMax(Vector2DFactory.make(width, height));
                 this.size = size;
-                console.log(this.name, this.size);
 
                 this.asset.width = size.x;
                 this.asset.height = size.y;
