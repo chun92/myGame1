@@ -11,9 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pixi.js": "^6.5.7",
-    "@pixi/assets": "^6.5.7",
-    "@pixi/events": "^6.5.7",
+    "pixi.js": "^6.5.8",
+    "@pixi/assets": "^6.5.8",
+    "@pixi/events": "^6.5.8",
+    "@pixi/layers": "^1.0.11",
     
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",

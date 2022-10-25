@@ -1,14 +1,14 @@
-import { GameObject, GameObjectType } from "../gameObject/gameObject";
+import { GameObjectType } from "../gameObject/gameObject";
 import coordinateCalculator from "../util/coordinateCalculator";
 import { PositionBase, StringUtils, Vector2DFactory } from "../util/util";
+import { UI } from "./ui";
 
-export class UpperUI extends GameObject {
+export class UpperUI extends UI {
     constructor (scene) {
         super('upperUI', GameObjectType.CONTAINER, scene, scene, { 
             positionPercent: new Vector2DFactory.make(0, 0),
             sizePercent: 100
         });
-        
     }
 
     async initialize() {
@@ -42,7 +42,7 @@ export class UpperUI extends GameObject {
     }
 }
 
-class EnergyResourcesUI extends GameObject {
+class EnergyResourcesUI extends UI {
     constructor (parent, scene) {
         super('energyResourcesUI', GameObjectType.CONTAINER, parent, scene, { 
             positionPercent: new Vector2DFactory.make(1, 1),
@@ -76,7 +76,7 @@ class EnergyResourcesUI extends GameObject {
     }
 }
 
-class EnergyResourceUI extends GameObject {
+class EnergyResourceUI extends UI {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
@@ -125,7 +125,7 @@ class EnergyResourceUI extends GameObject {
     }
 }
 
-class EnergyResourceImage extends GameObject {
+class EnergyResourceImage extends UI {
     constructor (energyType, heightMax, parent, scene) {
         super(energyType, GameObjectType.SPRITE, parent, scene, { 
             positionPercent: new Vector2DFactory.make(0, 0),
@@ -136,7 +136,7 @@ class EnergyResourceImage extends GameObject {
     }
 }
 
-class EnergyResourceText extends GameObject {
+class EnergyResourceText extends UI {
     constructor (text, heightMax, parent, scene) {
         super(text, GameObjectType.TEXT, parent, scene, { 
             positionPercent: new Vector2DFactory.make(5, 0),
@@ -147,7 +147,7 @@ class EnergyResourceText extends GameObject {
     }
 }
 
-class TurnUI extends GameObject {
+class TurnUI extends UI {
     constructor (parent, scene) {
         super('turnUI', GameObjectType.CONTAINER, parent, scene, {
             positionPercent: new Vector2DFactory.make(0, 1),
@@ -183,7 +183,7 @@ class TurnUI extends GameObject {
     }
 }
 
-class TurnText extends GameObject {
+class TurnText extends UI {
     constructor (parent, scene) {
         super('TURN', GameObjectType.TEXT, parent, scene, {
             positionPercent: new Vector2DFactory.make(42.5, 0), 
@@ -193,7 +193,7 @@ class TurnText extends GameObject {
     }
 }
 
-class TurnCount extends GameObject {
+class TurnCount extends UI {
     constructor (text, fixedPositionY, parent, scene) {
         super(text, GameObjectType.TEXT, parent, scene, {
             positionPercent: new Vector2DFactory.make(45, 0),
@@ -203,7 +203,7 @@ class TurnCount extends GameObject {
         });
     }
 }
-class AbilitiesUI extends GameObject {
+class AbilitiesUI extends UI {
     constructor (parent, scene) {
         super('abilitiesUI', GameObjectType.CONTAINER, parent, scene, {
             positionPercent: new Vector2DFactory.make(59, 1), 
@@ -237,7 +237,7 @@ class AbilitiesUI extends GameObject {
     }
 }
 
-class AbilityUI extends GameObject {
+class AbilityUI extends UI {
     constructor (abilityType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
@@ -287,7 +287,7 @@ class AbilityUI extends GameObject {
     }
 }
 
-class AbilityIconImage extends GameObject {
+class AbilityIconImage extends UI {
     constructor (abilityType, heightMax, parent, scene) {
         super(abilityType, GameObjectType.SPRITE, parent, scene, {
             positionPercent: new Vector2DFactory.make(0, 0), 
@@ -298,7 +298,7 @@ class AbilityIconImage extends GameObject {
     }
 }
 
-class AbilityNumberText extends GameObject {
+class AbilityNumberText extends UI {
     constructor (text, heightMax, parent, scene) {
         super(text, GameObjectType.TEXT, parent, scene, {
             positionPercent: new Vector2DFactory.make(5, 0), 

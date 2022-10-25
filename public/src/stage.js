@@ -95,6 +95,9 @@ export class Stage {
         this.upperUi.setEnergyResourcesUI(this.energy);
         this.upperUi.setTurn(1);
         this.upperUi.setAbilityUI(this.abilities);
+
+        const character = this.map.getTile(0, 0, 0).getObject();
+        character.move(this.map.getTile(0, 1, -1));
     }
 
     async initialize() {

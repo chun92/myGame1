@@ -1,6 +1,8 @@
 import { Application, extensions, InteractionManager } from 'pixi.js'
 import { EventSystem } from '@pixi/events'
 import * as PIXI from 'pixi.js';
+import { Stage } from '@pixi/layers'
+import layerManager from './ui/layerManager';
 
 class GameManager {
     static getInstance() {
@@ -29,6 +31,8 @@ class GameManager {
             resizeTo: window
         });
 
+        this.app.stage = new Stage();
+
         const { renderer } = this.app;
         renderer.addSystem(EventSystem, 'events');
 
@@ -43,6 +47,8 @@ class GameManager {
                 this.currentScene.resize(this.width, this.height);
             }
         }, true);
+
+        layerManager.initialize(this.app.stage);
     }
 
     changeScene(newScene) {

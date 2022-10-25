@@ -3,6 +3,7 @@ import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
 import coordinateCalculator from "../util/coordinateCalculator"
+import layerManager from "../ui/layerManager";
 
 export const GameObjectType = Object.freeze({
     SPRITE: "sprite",
@@ -46,6 +47,7 @@ export class GameObject {
                 this.createText();
             }
             this.updateSize();
+            this.asset.parentGroup = layerManager.defaultGroup;
         } catch (error) {
             console.error(error);
         }
@@ -218,5 +220,9 @@ export class GameObject {
         this.children.forEach((child) => {
             child.update(framesPassed);
         });
+    }
+
+    setLayerGroup(group) {
+        this.asset.parentGroup = group;
     }
 }

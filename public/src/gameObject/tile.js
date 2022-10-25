@@ -1,6 +1,7 @@
 import { GameObject, GameObjectType } from "./gameObject";
 import { PositionBase } from "../util/util";
 import { Polygon } from "pixi.js";
+import layerManager from "../ui/layerManager";
 
 const tileMagin = 1;
 export class Tile extends GameObject {
@@ -16,6 +17,8 @@ export class Tile extends GameObject {
 
     async initialize() {
         await super.initialize();
+
+        this.setLayerGroup(layerManager.tileGroup);
 
         this.asset.on('pointerdown', () => {
             this.parent.asset.emit('tiledown', this.vectorHexagon);
