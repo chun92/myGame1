@@ -1,25 +1,19 @@
-function getSprite(str) {
-    const spriteDir = 'assets/sprites/';
-    const pngExt = '.png';
-    const res = spriteDir + str + pngExt;
-    return res;
-}
-
 export const AssetMap = {
-    'energy_black': getSprite('energy_black'),
-    'energy_blue': getSprite('energy_blue'),
-    'energy_green': getSprite('energy_green'),
-    'energy_orange': getSprite('energy_orange'),
-    'energy_red': getSprite('energy_red'),
-    'energy_white': getSprite('energy_white'),
-    'energy_yellow': getSprite('energy_yellow'),
-    'hexagon_black': getSprite('hexagon_black'),
+    'energy_black': 'assets/sprites/energy/energy_black.png',
+    'energy_blue': 'assets/sprites/energy/energy_blue.png',
+    'energy_green': 'assets/sprites/energy/energy_green.png',
+    'energy_orange': 'assets/sprites/energy/energy_orange.png',
+    'energy_red': 'assets/sprites/energy/energy_red.png',
+    'energy_white': 'assets/sprites/energy/energy_white.png',
+    'energy_yellow': 'assets/sprites/energy/energy_yellow.png',
 
-    'tile': getSprite('hexagon_black'),
-    'enemy': getSprite('enemy'),
-    'player': getSprite('player'),
+    'tile': 'assets/sprites/tile/hexagon_black.png',
 
-    'ability_move': getSprite('move_icon'),
-    'ability_attack': getSprite('attack_icon'),
-    'ability_defense': getSprite('defense_icon'),
+    'ability_move': 'assets/sprites/ability/move_icon.png',
+    'ability_attack': 'assets/sprites/ability/attack_icon.png',
+    'ability_defense': 'assets/sprites/ability/defense_icon.png',
+
+    'player_idle': 'assets/animatedSprites/mainCharacter/idle.json',
+    'player_run': 'assets/animatedSprites/mainCharacter/run.json',
+    'player_hit': 'assets/animatedSprites/mainCharacter/hit.json',
 }

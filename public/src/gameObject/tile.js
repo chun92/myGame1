@@ -17,7 +17,6 @@ export class Tile extends GameObject {
     async initialize() {
         await super.initialize();
 
-        // this.asset.hitArea = new Circle(0, 0, 10);
         this.asset.on('pointerdown', () => {
             this.parent.asset.emit('tiledown', this.vectorHexagon);
         });
