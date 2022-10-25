@@ -33,10 +33,10 @@ export class Stage {
         const tile = this.map.getTile(0, 0, 0);
 
         if (tile) {
-            const character = new Character('player', CharacterType.CHARACTER_PLAYER, ['idle'], tile, this.scene, {
+            const character = new Character('player', CharacterType.CHARACTER_PLAYER, ['idle'], 'idle', tile, this.scene, {
                 positionPercent: Vector2DFactory.make(0, 0),
                 positionBase: PositionBase.CENTER,
-                sizePercent: 7
+                sizePercent: 40
             });
             await character.initialize();
             tile.setObject(character);
@@ -74,7 +74,7 @@ export class Stage {
             const energy = new Energy(energyType, tile, this.scene, {
                 positionPercent: Vector2DFactory.make(0, 0), 
                 positionBase: PositionBase.CENTER, 
-                sizePercent: 20,
+                sizePercent: 30,
             });
             await energy.initialize();
             tile.setObject(energy);

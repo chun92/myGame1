@@ -1,14 +1,15 @@
 import { Vector2DFactory, PositionBase } from "../util/util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
-import { AnimatedSprite, Container, Loader, Sprite, Text } from "pixi.js";
+import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
 import coordinateCalculator from "../util/coordinateCalculator"
 
 export const GameObjectType = Object.freeze({
     SPRITE: "sprite",
     ANIMATED_SPRITE: "aniamted_sprite",
     CONTAINER: "container",
-    TEXT: 'text',
+    TEXT: "text",
+    SCENE: "scene",
 });
 
 export class GameObject {
@@ -65,26 +66,47 @@ export class GameObject {
     }
 
     updateSize() {
-        if (this.objectType === GameObjectType.CONTAINER) {
-            let size = coordinateCalculator.getSize(this.sizePercent, this.size);
-            if (this.heightMax) {
-                if (size.y > this.heightMax) {
-                    size.y = this.heightMax;
-                }
+        let isParentContainer = true;
+        let nonContainerParent = this.parent;
+        while (nonContainerParent) {
+            if (nonContainerParent.objectType === GameObjectType.SCENE) {
+                isParentContainer = true;
+                break;
             }
-            this.size = size;
+            if (nonContainerParent.objectType !== GameObjectType.CONTAINER) {
+                isParentContainer = false;
+                break;
+            }
+            nonContainerParent = nonContainerParent.parent;
+        }
+
+        if (this.objectType === GameObjectType.CONTAINER) {
+            if (isParentContainer) {
+                let size = coordinateCalculator.getSize(this.sizePercent, this.size);
+                if (this.heightMax) {
+                    if (size.y > this.heightMax) {
+                        size.y = this.heightMax;
+                    }
+                }
+                this.size = size;
+            } else {
+                this.size = nonContainerParent.size;
+            }
         } else {
             this.setAnchor(this.positionBase);
-            if (!this.parent || this.parent.objectType === GameObjectType.CONTAINER) {
+            if (isParentContainer) {
                 const size = coordinateCalculator.getSize(this.sizePercent, this.size);
                 this.size = this.getSizeWithHeightMax(size);
                 this.asset.width = size.x;
                 this.asset.height = size.y;
             } else {
-                this.asset.scale.x = this.sizePercent / 100;
-                this.asset.scale.y = this.sizePercent / 100;
-                const size = this.getSizeWithHeightMax(Vector2DFactory.makeFromContainer(this.asset));
+                const ratio = this.asset.width / this.asset.height;
+                const width = nonContainerParent.origWidth * this.sizePercent / 100;
+                const height = width * ratio;
+                const size = this.getSizeWithHeightMax(Vector2DFactory.make(width, height));
                 this.size = size;
+                console.log(this.name, this.size);
+
                 this.asset.width = size.x;
                 this.asset.height = size.y;
             }
@@ -175,6 +197,9 @@ export class GameObject {
                 this.asset = new AnimatedSprite(asset.animations['animation']);
                 break;
         }
+
+        this.origWidth = this.asset._texture.orig.width;
+        this.origHeight = this.asset._texture.orig.height;
         this.parent.asset.addChild(this.asset);
         this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
     }
