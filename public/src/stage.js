@@ -33,15 +33,21 @@ export class Stage {
         const tile = this.map.getTile(0, 0, 0);
 
         if (tile) {
+            const abilities = {};
+            abilities[AbilityType.ABILITY_MOVE] = 3;
+            abilities[AbilityType.ABILITY_ATTACK] = 1;
+            abilities[AbilityType.ABILITY_DEFENSE] = 1;
             const character = new Character('player', CharacterType.CHARACTER_PLAYER, [
                 { name: 'idle', speed: 0.5, isDefault: true },
-                { name: 'run', speed: 0.5 }], tile, this.scene, {
+                { name: 'run', speed: 0.5 }], abilities, tile, this.scene, {
                 positionPercent: Vector2DFactory.make(0, 0),
                 positionBase: PositionBase.CENTER,
                 sizePercent: 40
             });
             await character.initialize();
             tile.setObject(character);
+            this.player = character;
+            this.abilities = abilities;
         }
 
         for (const pos in this.map.tileMap) {
@@ -88,21 +94,19 @@ export class Stage {
             }
         }
 
-        this.abilities[AbilityType.ABILITY_MOVE] = 3;
-        this.abilities[AbilityType.ABILITY_ATTACK] = 1;
-        this.abilities[AbilityType.ABILITY_DEFENSE] = 1;
-
         this.upperUi.setEnergyResourcesUI(this.energy);
         this.upperUi.setTurn(1);
         this.upperUi.setAbilityUI(this.abilities);
 
+        /*
         const character = this.map.getTile(0, 0, 0).getObject();
         character.move(this.map.getTile(0, 1, -1));
+        */
     }
 
     async initialize() {
         // TODO: stage info will be saved as json or xml file format later
-        const map = new Map(this.scene);
+        const map = new Map(this, this.scene);
         await map.initialize(3);
         this.scene.addChild(map);
         this.map = map;
@@ -132,6 +136,14 @@ export class Stage {
         });
         await energy.initialize();
         tile.setObject(energy);
+    }
+
+    getPlayer() {
+        return this.player;
+    }
+
+    getNumberOfMoveAbility() {
+        return this.abilities[AbilityType.ABILITY_MOVE];
     }
 
     nextTurn() {

@@ -4,10 +4,10 @@ import { AnimatedGameObject } from "./animatedGameObject";
 
 const movingSpeed = 0.01;
 export class Character extends AnimatedGameObject {
-    constructor (name, characterType, animations, parent, scene, option) {
+    constructor (name, characterType, animations, abilities, parent, scene, option) {
         super(name, animations, parent, scene, option);
         this.characterType = characterType;
-        this.abilityMap = {};
+        this.abilities = abilities;
         this.currentAction = CharacterAction.IDLE;
     }
 

@@ -3,11 +3,13 @@ import { Vector2DFactory, VectorHexagonFactory } from "../util/util";
 import { Tile } from "./tile";
 
 export class Map extends GameObject {
-    constructor (scene) {
+    constructor (stage, scene) {
         super('map', GameObjectType.CONTAINER, scene, scene, {
             positionPercent: new Vector2DFactory.make(50, 50),
             sizePercent: 100
         });
+
+        this.stage = stage;
     }
 
     async initialize(tileRingSize) {
@@ -54,13 +56,16 @@ export class Map extends GameObject {
         const numOfTiles = this.tileMovePreview.length;
         if (numOfTiles > 0) {
             const lastTile = this.tileMovePreview[numOfTiles - 1];
-            if (vectorHexagon.getLength(lastTile) != 1) {
+            if (vectorHexagon.getLength(lastTile) > 1) {
                 this.cancelStep(vectorHexagon);
                 return;
             }
 
             const index = this.tileMovePreview.indexOf(vectorHexagon);
             if (index == -1) {
+                if (numOfTiles >= this.stage.getNumberOfMoveAbility()) {
+                    return;
+                } 
                 this.activeTile(vectorHexagon);
                 this.tileMovePreview.push(vectorHexagon);
             } else {
