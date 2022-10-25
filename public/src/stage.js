@@ -5,6 +5,8 @@ import { PositionBase, Vector2DFactory } from "./util/util";
 
 import { EnergyType } from "./enums/energyType";
 import { AbilityType } from "./enums/abilityType";
+import { Character } from "./gameObject/character";
+import { CharacterType } from "./enums/characterType";
 
 export class Stage {
     static totalCount = 0;
@@ -28,7 +30,23 @@ export class Stage {
             return Math.floor(Math.random() * (max - min)) + min; 
         }
 
+        const tile = this.map.getTile(0, 0, 0);
+
+        if (tile) {
+            const character = new Character('player', CharacterType.CHARACTER_PLAYER, ['idle'], tile, this.scene, {
+                positionPercent: Vector2DFactory.make(0, 0),
+                positionBase: PositionBase.CENTER,
+                sizePercent: 7
+            });
+            await character.initialize();
+            tile.setObject(character);
+        }
+
         for (const pos in this.map.tileMap) {
+            const tile = this.map.tileMap[pos];
+            if (tile.getObject()) {
+                continue;
+            }
             let energyType = EnergyType.ENERGY_BLACK;
             switch (getRandomInt(0, 7)) {
                 case 0:
@@ -53,7 +71,6 @@ export class Stage {
                     energyType = EnergyType.ENERGY_YELLOW;
                     break;
             }
-            const tile = this.map.tileMap[pos];
             const energy = new Energy(energyType, tile, this.scene, {
                 positionPercent: Vector2DFactory.make(0, 0), 
                 positionBase: PositionBase.CENTER, 

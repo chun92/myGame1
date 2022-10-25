@@ -1,11 +1,12 @@
 import { Vector2DFactory, PositionBase } from "../util/util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
-import { Container, Sprite, Text } from "pixi.js";
+import { AnimatedSprite, Container, Loader, Sprite, Text } from "pixi.js";
 import coordinateCalculator from "../util/coordinateCalculator"
 
 export const GameObjectType = Object.freeze({
     SPRITE: "sprite",
+    ANIMATED_SPRITE: "aniamted_sprite",
     CONTAINER: "container",
     TEXT: 'text',
 });
@@ -37,6 +38,8 @@ export class GameObject {
             if (this.objectType === GameObjectType.CONTAINER) {
                 this.createContainer();
             } else if (this.objectType === GameObjectType.SPRITE) {
+                await this.loadAsset();
+            } else if (this.objectType === GameObjectType.ANIMATED_SPRITE) {
                 await this.loadAsset();
             } else if (this.objectType === GameObjectType.TEXT) {
                 this.createText();
@@ -167,6 +170,9 @@ export class GameObject {
         switch (this.objectType) {
             case GameObjectType.SPRITE:
                 this.asset = Sprite.from(asset);
+                break;
+            case GameObjectType.ANIMATED_SPRITE:
+                this.asset = new AnimatedSprite(asset.animations['animation']);
                 break;
         }
         this.parent.asset.addChild(this.asset);
