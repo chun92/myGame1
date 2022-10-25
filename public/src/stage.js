@@ -33,7 +33,9 @@ export class Stage {
         const tile = this.map.getTile(0, 0, 0);
 
         if (tile) {
-            const character = new Character('player', CharacterType.CHARACTER_PLAYER, ['idle'], 'idle', tile, this.scene, {
+            const character = new Character('player', CharacterType.CHARACTER_PLAYER, [
+                { name: 'idle', speed: 0.5, isDefault: true },
+                { name: 'run', speed: 0.5 }], tile, this.scene, {
                 positionPercent: Vector2DFactory.make(0, 0),
                 positionBase: PositionBase.CENTER,
                 sizePercent: 40
