@@ -23,7 +23,6 @@ class LayerManager {
         stage.addChild(new Layer(this.resourceGroup));
         stage.addChild(new Layer(this.characterGroup));
         stage.addChild(new Layer(this.uiGroup));
-        console.log(stage);
     }
 }
 
