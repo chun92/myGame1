@@ -110,12 +110,10 @@ export class Stage {
         // TODO: stage info will be saved as json or xml file format later
         const map = new Map(this, this.scene);
         await map.initialize(3);
-        this.scene.addChild(map);
         this.map = map;
 
         const upperUi = new UpperUI(this.scene);
         await upperUi.initialize();
-        this.scene.addChild(upperUi);
         this.upperUi = upperUi;
     }
 

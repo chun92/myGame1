@@ -50,7 +50,6 @@ export class Tile extends GameObject {
             this.object.finalize();
         }
         this.object = obj;
-        this.addChild(obj);
     }
 
     getObject() {

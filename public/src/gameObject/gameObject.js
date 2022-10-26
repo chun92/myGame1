@@ -48,6 +48,10 @@ export class GameObject {
             }
             this.updateSize();
             this.asset.parentGroup = layerManager.defaultGroup;
+            
+            if (this.parent && this.parent.addChild) {
+                this.parent.addChild(this);
+            }
         } catch (error) {
             console.error(error);
         }

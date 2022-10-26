@@ -16,17 +16,14 @@ export class UpperUI extends UI {
         const energyResourcesUI = new EnergyResourcesUI(this, this.scene);
         await energyResourcesUI.initialize();
         this.energyResourcesUI = energyResourcesUI;
-        this.addChild(energyResourcesUI);
 
         const turnUI = new TurnUI(this, this.scene);
         await turnUI.initialize();
         this.turnUI = turnUI;
-        this.addChild(turnUI);
 
         const abilitiesUI = new AbilitiesUI(this, this.scene);
         await abilitiesUI.initialize();
         this.abilitiesUI = abilitiesUI;
-        this.addChild(abilitiesUI);
     }
 
     setEnergyResourcesUI(energyCount) {
@@ -67,7 +64,6 @@ class EnergyResourcesUI extends UI {
         if (!energyUI) {
             const energyResourceUI = new EnergyResourceUI(energyType, num, this.count, this, this.scene);
             await energyResourceUI.initialize();
-            this.addChild(energyResourceUI);
             this.energyMap[energyType] = energyResourceUI;
             this.count++;
         } else {
@@ -101,13 +97,11 @@ class EnergyResourceUI extends UI {
         await super.initialize();
         const energyResourceImage = new EnergyResourceImage(this.energyType, this.heightMax, this, this.scene);
         await energyResourceImage.initialize();
-        this.addChild(energyResourceImage);
         this.energyResourceImage = energyResourceImage;
 
         const text = 'x' + this.num;
         const energyResourceText = new EnergyResourceText(text, this.heightMax, this, this.scene)
         await energyResourceText.initialize();
-        this.addChild(energyResourceText);
         this.energyResourceText = energyResourceText;
     }
 
@@ -160,14 +154,12 @@ class TurnUI extends UI {
 
         const turnText = new TurnText(this, this.scene);
         await turnText.initialize();
-        this.addChild(turnText);
         this.turnText = turnText;
 
         const pos = turnText.size.y;
 
         const turnCount = new TurnCount(StringUtils.getNthNumber(0, 2), pos, this, this.scene);
         await turnCount.initialize();
-        this.addChild(turnCount);
         this.turnCount = turnCount;
     }
 
@@ -228,7 +220,6 @@ class AbilitiesUI extends UI {
         if (!abilityUI) {
             const abilityUI = new AbilityUI(abilityType, num, this.count, this, this.scene);
             await abilityUI.initialize();
-            this.addChild(abilityUI);
             this.abilityMap[abilityType] = abilityUI;
             this.count++;
         } else {
@@ -263,13 +254,11 @@ class AbilityUI extends UI {
         await super.initialize();
         const abilityIconImage = new AbilityIconImage(this.abilityType, this.heightMax, this, this.scene);
         await abilityIconImage.initialize();
-        this.addChild(abilityIconImage);
         this.abilityIconImage = abilityIconImage;
 
         const text = StringUtils.getNthNumber(this.num, 2)
         const abilityNumberText = new AbilityNumberText(text, this.heightMax, this, this.scene)
         await abilityNumberText.initialize();
-        this.addChild(abilityNumberText);
         this.abilityNumberText = abilityNumberText;
     }
 

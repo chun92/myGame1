@@ -20,7 +20,6 @@ export class AnimatedGameObject extends GameObject {
             const assetName = this.name + "_" + animationName;
             const anim = new AnimatedSpriteObject(assetName, this, this.scene, this.option);
             await anim.initialize();
-            this.addChild(anim);
 
             const speed = animationInfo.speed;
             if (speed) {

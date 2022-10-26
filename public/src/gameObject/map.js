@@ -109,9 +109,7 @@ export class Map extends GameObject {
 
             for (const tile in this.tileMovePreview) {
                 const destination = this.tileMovePreview[tile];
-                const tile = this.getTile(destination.x, destination.y, destination.z);
                 await this.moveCharacter(this.stage.getPlayer(), destination);
-                
             }
             this.tileMovePreview = [];
             this.currentTile = null;
@@ -145,7 +143,6 @@ export class Map extends GameObject {
                 if (Math.abs(j) + Math.abs(k) + Math.abs(l) == i * 2 && j + k + l == 0) {
                     const tile = new Tile(this, this.scene, VectorHexagonFactory.make(j, k, l), radius);
                     await tile.initialize();
-                    this.addChild(tile);
 
                     this.tileMap[Map.getTileKey(j, k, l)] = tile;
                 }
