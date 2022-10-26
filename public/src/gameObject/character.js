@@ -14,6 +14,7 @@ export class Character extends AnimatedGameObject {
         this.currentAction = CharacterAction.IDLE;
         this.emitter = new EventEmitter();
         this.tile = tile;
+        this.xDirection = 1; // right
     }
 
     async initialize() {
@@ -48,9 +49,28 @@ export class Character extends AnimatedGameObject {
 
         this.currentAction = CharacterAction.MOVE;
         this.changeAnimation('run');
+
+        let direction = this.destination.x;
+        if (Math.abs(this.destination.x) < 0.1) {
+            direction = 0;
+        }
+
+        if (direction < 0) {
+            this.currentAnimation.flipX(true);
+            this.xDirection = -1;
+        } else if (direction > 0) { 
+            this.currentAnimation.flipX(false);
+            this.xDirection = 1;
+        }
+
         new Tween(this.asset).to({x: this.destination.x, y: this.destination.y}, 400).start().onComplete(() => {
             this.currentAction = CharacterAction.IDLE;
             this.changeAnimation('idle');
+            if (this.xDirection < 0) {
+                this.currentAnimation.flipX(true);
+            } else if (this.xDirection > 0) {
+                this.currentAnimation.flipX(false);
+            }
             this.emitter.emit('moveDone');
         })
 

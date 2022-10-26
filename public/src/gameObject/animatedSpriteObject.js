@@ -20,4 +20,22 @@ export class AnimatedSpriteObject extends GameObject {
     setVisible(visible) {
         this.asset.visible = visible;
     }
+
+    flipX(isFlip) {
+        const absScale = Math.abs(this.asset.scale.x);
+        if (isFlip) {
+            this.asset.scale.x = -1 * absScale;
+        } else {
+            this.asset.scale.x = absScale;
+        }
+    }
+
+    flipY(isFlip) {
+        const absScale = Math.abs(this.asset.scale.y);
+        if (isFlip) {
+            this.asset.scale.y = -1 * absScale;
+        } else {
+            this.asset.scale.y = absScale;
+        }
+    }
 }
