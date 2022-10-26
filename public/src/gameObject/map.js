@@ -102,14 +102,16 @@ export class Map extends GameObject {
 
     async endStep(vectorHexagon) {
         if (this.tileMovePreview.length > 0) {
-            for (const tile in this.tileMovePreview) {
-                const destination = this.tileMovePreview[tile];
+            for (const index in this.tileMovePreview) {
+                const destination = this.tileMovePreview[index];
                 this.deactivateTile(destination);
             }
 
-            for (const tile in this.tileMovePreview) {
-                const destination = this.tileMovePreview[tile];
+            for (const index in this.tileMovePreview) {
+                const destination = this.tileMovePreview[index];
+                const tile = this.getTile(destination.x, destination.y, destination.z);
                 await this.moveCharacter(this.stage.getPlayer(), destination);
+                tile.setObject(this.stage.getPlayer());
             }
             this.tileMovePreview = [];
             this.currentTile = null;

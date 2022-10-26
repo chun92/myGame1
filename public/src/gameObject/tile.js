@@ -50,6 +50,13 @@ export class Tile extends GameObject {
             this.removeChild(this.object);
         }
         this.object = obj;
+        this.addChild(this.object);
+    }
+
+    removeObject() {
+        if (this.object) {
+            this.removeChild(this.object);
+        }
     }
 
     getObject() {

@@ -48,8 +48,10 @@ export class Character extends AnimatedGameObject {
         this.speedY = this.destination.y / distance;
         this.currentAction = CharacterAction.MOVE;
         this.changeAnimation('run');
-
+        
         await waitFor('moveDone', this.emitter);
+        this.asset.x = 0;
+        this.asset.y = 0;
     }
 
     update(framesPassed) {
@@ -57,7 +59,7 @@ export class Character extends AnimatedGameObject {
             let x = this.asset.x + this.speedX * framesPassed;
             let y = this.asset.y + this.speedY * framesPassed;
 
-            if (Math.abs(x) >= Math.abs(this.destination.x)) {
+            if (Math.abs(x) >= Math.abs(this.destination.x) && Math.abs(y) >= Math.abs(this.destination.y)) {
                 x = this.destination.x;
                 y = this.destination.y;
                 this.currentAction = CharacterAction.IDLE;
