@@ -46,12 +46,12 @@ export class GameObject {
             } else if (this.objectType === GameObjectType.TEXT) {
                 this.createText();
             }
-            this.updateSize();
-            this.asset.parentGroup = layerManager.defaultGroup;
-            
             if (this.parent && this.parent.addChild) {
                 this.parent.addChild(this);
             }
+            this.asset.parentGroup = layerManager.defaultGroup;
+
+            this.updateSize();
         } catch (error) {
             console.error(error);
         }
@@ -171,13 +171,11 @@ export class GameObject {
 
     createContainer() {
         this.asset = new Container();
-        this.parent.asset.addChild(this.asset);
         this.size = coordinateCalculator.getSize(this.sizePercent);
     }
 
     createText() {
         this.asset = new Text(this.name);
-        this.parent.asset.addChild(this.asset);
         this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
     }
 
@@ -205,7 +203,6 @@ export class GameObject {
 
         this.origWidth = this.asset._texture.orig.width;
         this.origHeight = this.asset._texture.orig.height;
-        this.parent.asset.addChild(this.asset);
         this.size = Vector2DFactory.make(this.asset.width, this.asset.height);
     }
 
@@ -217,6 +214,7 @@ export class GameObject {
     }
 
     addChild(gameObject) {
+        this.asset.addChild(gameObject.asset);
         this.children.push(gameObject);
     }
 

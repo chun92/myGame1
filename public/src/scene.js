@@ -26,6 +26,7 @@ export class Scene {
     }
 
     addChild(object) {
+        this.asset.addChild(object.asset);
         this.children.push(object);
     }
 

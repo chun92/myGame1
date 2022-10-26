@@ -46,8 +46,8 @@ export class Tile extends GameObject {
     }
 
     setObject(obj) {
-        if (this.object && this.object.finalize) {
-            this.object.finalize();
+        if (this.object) {
+            this.removeChild(this.object);
         }
         this.object = obj;
     }
