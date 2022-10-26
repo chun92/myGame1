@@ -140,6 +140,10 @@ export class Stage {
         tile.setObject(energy);
     }
 
+    getPlayer() {
+        return this.player;
+    }
+
     getPlayerTile() {
         return this.playerTile;
     }

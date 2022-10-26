@@ -216,6 +216,10 @@ export class GameObject {
         this.children.push(gameObject);
     }
 
+    removeChild(gameObject) {
+        this.parent.asset.removeChild(this.asset);
+    }
+
     update(framesPassed) {
         this.children.forEach((child) => {
             child.update(framesPassed);

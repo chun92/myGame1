@@ -100,10 +100,18 @@ export class Map extends GameObject {
         }
     }
 
-    endStep(vectorHexagon) {
+    async endStep(vectorHexagon) {
         if (this.tileMovePreview.length > 0) {
             for (const tile in this.tileMovePreview) {
-                this.deactivateTile(this.tileMovePreview[tile]);
+                const destination = this.tileMovePreview[tile];
+                this.deactivateTile(destination);
+            }
+
+            for (const tile in this.tileMovePreview) {
+                const destination = this.tileMovePreview[tile];
+                const tile = this.getTile(destination.x, destination.y, destination.z);
+                await this.moveCharacter(this.stage.getPlayer(), destination);
+                
             }
             this.tileMovePreview = [];
             this.currentTile = null;
@@ -143,6 +151,10 @@ export class Map extends GameObject {
                 }
             }
         }
+    }
+
+    async moveCharacter(character, destination) {
+        await character.move(this.getTile(destination.x, destination.y, destination.z));
     }
 
     getTile(x, y, z) {

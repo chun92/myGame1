@@ -1,14 +1,17 @@
 import { CharacterAction } from "../enums/characterAction";
 import layerManager from "../ui/layerManager";
 import { AnimatedGameObject } from "./animatedGameObject";
+import { EventEmitter } from 'events';
+import { waitFor } from "wait-for-event";
 
-const movingSpeed = 0.01;
+const movingSpeed = 0.05;
 export class Character extends AnimatedGameObject {
     constructor (name, characterType, animations, abilities, parent, scene, option) {
         super(name, animations, parent, scene, option);
         this.characterType = characterType;
         this.abilities = abilities;
         this.currentAction = CharacterAction.IDLE;
+        this.emitter = new EventEmitter();
     }
 
     async initialize() {
@@ -32,7 +35,7 @@ export class Character extends AnimatedGameObject {
         targetAnimation.play();
     }
 
-    move(targetTile, speed) {
+    async move(targetTile, speed) {
         if (speed) {
             this.speed = speed;
         } else {
@@ -45,6 +48,8 @@ export class Character extends AnimatedGameObject {
         this.speedY = this.destination.y / distance;
         this.currentAction = CharacterAction.MOVE;
         this.changeAnimation('run');
+
+        await waitFor('moveDone', this.emitter);
     }
 
     update(framesPassed) {
@@ -57,6 +62,7 @@ export class Character extends AnimatedGameObject {
                 y = this.destination.y;
                 this.currentAction = CharacterAction.IDLE;
                 this.changeAnimation('idle');
+                this.emitter.emit('moveDone');
             }
 
             this.asset.x = x;
