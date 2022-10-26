@@ -17,6 +17,7 @@ export class Stage {
         this.scene = scene;
         this.turn = 0;
         this.player = null;
+        this.playerTile = null;
         this.enemies = [];
         this.energy = {};
         this.abilities = {};
@@ -47,6 +48,7 @@ export class Stage {
             await character.initialize();
             tile.setObject(character);
             this.player = character;
+            this.playerTile = tile;
             this.abilities = abilities;
         }
 
@@ -138,8 +140,8 @@ export class Stage {
         tile.setObject(energy);
     }
 
-    getPlayer() {
-        return this.player;
+    getPlayerTile() {
+        return this.playerTile;
     }
 
     getNumberOfMoveAbility() {

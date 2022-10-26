@@ -45,11 +45,14 @@ export class Map extends GameObject {
     }
 
     initStep(vectorHexagon) {
-        this.tileMovePreview = [];
-        this.currentTile = vectorHexagon;
-        this.activeTile(vectorHexagon);
-        this.stepFinished = false;
-        this.tileMovePreview.push(vectorHexagon);
+        const playerTile = this.stage.getPlayerTile();
+        if (playerTile && playerTile.vectorHexagon.getLength(vectorHexagon) == 1) {
+            this.tileMovePreview = [];
+            this.currentTile = vectorHexagon;
+            this.activeTile(vectorHexagon);
+            this.stepFinished = false;
+            this.tileMovePreview.push(vectorHexagon);
+        }
     }
 
     stepTo(vectorHexagon) {
