@@ -45,6 +45,9 @@ export class Map extends GameObject {
     }
 
     initStep(vectorHexagon) {
+        if (this.inEndStep) {
+            return;
+        }
         const playerTile = this.stage.getPlayerTile();
         if (playerTile && playerTile.vectorHexagon.getLength(vectorHexagon) == 1) {
             this.tileMovePreview = [];
@@ -56,6 +59,9 @@ export class Map extends GameObject {
     }
 
     stepTo(vectorHexagon) {
+        if (this.inEndStep) {
+            return;
+        }
         const numOfTiles = this.tileMovePreview.length;
         if (numOfTiles > 0) {
             const lastTile = this.tileMovePreview[numOfTiles - 1];
@@ -84,12 +90,19 @@ export class Map extends GameObject {
     }
 
     stepDone(vectorHexagon) {
+        if (this.inEndStep) {
+            return;
+        }
         if (this.currentTile == vectorHexagon) {
             this.currentTile = null;
         }
     }
 
     cancelStep(vectorHexagon) {
+        if (this.inEndStep) {
+            return;
+        }
+
         if (!this.stepFinished && !this.currentTile) {
             for (const tile in this.tileMovePreview) {
                 this.deactivateTile(this.tileMovePreview[tile]);
@@ -101,7 +114,12 @@ export class Map extends GameObject {
     }
 
     async endStep(vectorHexagon) {
+        if (this.inEndStep) {
+            return;
+        }
+        
         if (this.tileMovePreview.length > 0) {
+            this.inEndStep = true;
             for (const index in this.tileMovePreview) {
                 const destination = this.tileMovePreview[index];
                 this.deactivateTile(destination);
@@ -116,6 +134,7 @@ export class Map extends GameObject {
             this.tileMovePreview = [];
             this.currentTile = null;
             this.stepFinished = true;
+            this.inEndStep = false;
         }
     }
 

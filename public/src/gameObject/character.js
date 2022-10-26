@@ -6,12 +6,13 @@ import { waitFor } from "wait-for-event";
 
 const movingSpeed = 0.05;
 export class Character extends AnimatedGameObject {
-    constructor (name, characterType, animations, abilities, parent, scene, option) {
+    constructor (name, characterType, animations, abilities, tile, parent, scene, option) {
         super(name, animations, parent, scene, option);
         this.characterType = characterType;
         this.abilities = abilities;
         this.currentAction = CharacterAction.IDLE;
         this.emitter = new EventEmitter();
+        this.tile = tile;
     }
 
     async initialize() {
@@ -48,10 +49,11 @@ export class Character extends AnimatedGameObject {
         this.speedY = this.destination.y / distance;
         this.currentAction = CharacterAction.MOVE;
         this.changeAnimation('run');
-        
+
         await waitFor('moveDone', this.emitter);
         this.asset.x = 0;
         this.asset.y = 0;
+        this.tile = targetTile;
     }
 
     update(framesPassed) {

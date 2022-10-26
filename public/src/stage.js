@@ -40,7 +40,7 @@ export class Stage {
             abilities[AbilityType.ABILITY_DEFENSE] = 1;
             const character = new Character('player', CharacterType.CHARACTER_PLAYER, [
                 { name: 'idle', speed: 0.5, isDefault: true },
-                { name: 'run', speed: 0.5 }], abilities, tile, this.scene, {
+                { name: 'run', speed: 0.5 }], abilities, tile, tile, this.scene, {
                 positionPercent: Vector2DFactory.make(0, 0),
                 positionBase: PositionBase.CENTER,
                 sizePercent: 40
@@ -143,7 +143,7 @@ export class Stage {
     }
 
     getPlayerTile() {
-        return this.playerTile;
+        return this.player.tile;
     }
 
     getNumberOfMoveAbility() {
