@@ -1,6 +1,7 @@
 import { GameObject, GameObjectType } from "./gameObject";
 import { Vector2DFactory, VectorHexagonFactory } from "../util/util";
 import { Tile } from "./tile";
+import gameManager from "../gameManager";
 
 export class Map extends GameObject {
     constructor (stage, scene) {
@@ -8,8 +9,6 @@ export class Map extends GameObject {
             positionPercent: new Vector2DFactory.make(50, 50),
             sizePercent: 100
         });
-
-        this.stage = stage;
     }
 
     async initialize(tileRingSize) {
@@ -48,7 +47,8 @@ export class Map extends GameObject {
         if (this.inEndStep) {
             return;
         }
-        const playerTile = this.stage.getPlayerTile();
+        const stage = gameManager.currentScene.currentStage;
+        const playerTile = stage.getPlayerTile();
         if (playerTile && playerTile.vectorHexagon.getLength(vectorHexagon) == 1) {
             this.tileMovePreview = [];
             this.currentTile = vectorHexagon;
@@ -59,6 +59,7 @@ export class Map extends GameObject {
     }
 
     stepTo(vectorHexagon) {
+        const stage = gameManager.currentScene.currentStage;
         if (this.inEndStep) {
             return;
         }
@@ -72,7 +73,7 @@ export class Map extends GameObject {
 
             const index = this.tileMovePreview.indexOf(vectorHexagon);
             if (index == -1) {
-                if (numOfTiles >= this.stage.getNumberOfMoveAbility()) {
+                if (numOfTiles >= stage.getNumberOfMoveAbility()) {
                     return;
                 } 
                 this.activeTile(vectorHexagon);
@@ -117,7 +118,7 @@ export class Map extends GameObject {
         if (this.inEndStep) {
             return;
         }
-        
+        const stage = gameManager.currentScene.currentStage;
         if (this.tileMovePreview.length > 0) {
             this.inEndStep = true;
             for (const index in this.tileMovePreview) {
@@ -128,9 +129,16 @@ export class Map extends GameObject {
             for (const index in this.tileMovePreview) {
                 const destination = this.tileMovePreview[index];
                 const tile = this.getTile(destination.x, destination.y, destination.z);
-                await this.moveCharacter(this.stage.getPlayer(), destination);
-                tile.setObject(this.stage.getPlayer());
+                const player = stage.getPlayer();
+                const previousTile = stage.getPlayer().tile;
+                await this.moveCharacter(player, destination);
+                
+                tile.setObject(player);
+                previousTile.clearObject();
             }
+
+            stage.endTurn();
+            
             this.tileMovePreview = [];
             this.currentTile = null;
             this.stepFinished = true;

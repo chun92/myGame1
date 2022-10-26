@@ -3,8 +3,9 @@ import { GameObject, GameObjectType } from "./gameObject";
 import { Tween } from "tweedle.js"
 
 export class Energy extends GameObject {
-    constructor (energy_type, parent, scene, option) {
-        super(energy_type, GameObjectType.SPRITE, parent, scene, option);
+    constructor (energyType, parent, scene, option) {
+        super(energyType, GameObjectType.SPRITE, parent, scene, option);
+        this.energyType = energyType;
     }
 
     async initialize() {

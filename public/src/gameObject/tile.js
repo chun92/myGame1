@@ -2,6 +2,7 @@ import { GameObject, GameObjectType } from "./gameObject";
 import { PositionBase } from "../util/util";
 import { Polygon } from "pixi.js";
 import layerManager from "../ui/layerManager";
+import gameManager from "../gameManager";
 
 const tileMagin = 1;
 export class Tile extends GameObject {
@@ -13,6 +14,7 @@ export class Tile extends GameObject {
             sizePercent: sizePercent
         });
         this.vectorHexagon = vectorHexagon;
+        this.map = parent;
     }
 
     async initialize() {
@@ -47,16 +49,25 @@ export class Tile extends GameObject {
 
     setObject(obj) {
         if (this.object) {
+            if (this.object.energyType) {
+                const stage = gameManager.currentScene.currentStage;
+                stage.addEnergy(this.object.energyType);
+            }
             this.removeChild(this.object);
         }
         this.object = obj;
         this.addChild(this.object);
     }
 
+    clearObject(tile) {
+        this.object = null;
+    }
+
     removeObject() {
         if (this.object) {
             this.removeChild(this.object);
         }
+        this.object = null;
     }
 
     getObject() {

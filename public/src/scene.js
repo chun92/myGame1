@@ -29,4 +29,8 @@ export class Scene {
         this.asset.addChild(object.asset);
         this.children.push(object);
     }
+
+    setStage(stage) {
+        this.currentStage = stage;
+    }
 }

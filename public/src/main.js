@@ -8,4 +8,5 @@ const scene = new Scene("test", gameManager.width, gameManager.height);
 gameManager.changeScene(scene);
 
 const stage = new Stage(scene);
+scene.setStage(stage);
 stage.test();

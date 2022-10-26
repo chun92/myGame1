@@ -1,7 +1,7 @@
 import { Energy } from "./gameObject/energy";
 import { Map } from "./gameObject/map"
 import { UpperUI } from "./ui/upperUi";
-import { PositionBase, Vector2DFactory } from "./util/util";
+import { PositionBase, Vector2DFactory, VectorHexagonFactory } from "./util/util";
 
 import { EnergyType } from "./enums/energyType";
 import { AbilityType } from "./enums/abilityType";
@@ -15,9 +15,8 @@ export class Stage {
         this.id = this.totalCount;
 
         this.scene = scene;
-        this.turn = 0;
+        this.turn = 1;
         this.player = null;
-        this.playerTile = null;
         this.enemies = [];
         this.energy = {};
         this.abilities = {};
@@ -25,85 +24,18 @@ export class Stage {
 
     async test() {
         await this.initialize();
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; 
+        
+        this.energyTypes = [EnergyType.ENERGY_BLACK, EnergyType.ENERGY_WHITE, EnergyType.ENERGY_RED];
+        this.respawnRate = 0.35;
+        this.startPosition = VectorHexagonFactory.make(-2, 1, 1);
+
+        for (const energyType of this.energyTypes) {
+            this.energy[energyType] = 0;
         }
 
-        const tile = this.map.getTile(0, 0, 0);
-
-        if (tile) {
-            const abilities = {};
-            abilities[AbilityType.ABILITY_MOVE] = 3;
-            abilities[AbilityType.ABILITY_ATTACK] = 1;
-            abilities[AbilityType.ABILITY_DEFENSE] = 1;
-            const character = new Character('player', CharacterType.CHARACTER_PLAYER, [
-                { name: 'idle', speed: 0.5, isDefault: true },
-                { name: 'run', speed: 0.5 }], abilities, tile, tile, this.scene, {
-                positionPercent: Vector2DFactory.make(0, 0),
-                positionBase: PositionBase.CENTER,
-                sizePercent: 40
-            });
-            await character.initialize();
-            tile.setObject(character);
-            this.player = character;
-            this.playerTile = tile;
-            this.abilities = abilities;
-        }
-
-        for (const pos in this.map.tileMap) {
-            const tile = this.map.tileMap[pos];
-            if (tile.getObject()) {
-                continue;
-            }
-            let energyType = EnergyType.ENERGY_BLACK;
-            switch (getRandomInt(0, 7)) {
-                case 0:
-                    energyType = EnergyType.ENERGY_BLACK;
-                    break;
-                case 1:
-                    energyType = EnergyType.ENERGY_BLUE;
-                    break;
-                case 2:
-                    energyType = EnergyType.ENERGY_GREEN;
-                    break;
-                case 3:
-                    energyType = EnergyType.ENERGY_ORANGE;
-                    break;
-                case 4:
-                    energyType = EnergyType.ENERGY_RED;
-                    break;
-                case 5:
-                    energyType = EnergyType.ENERGY_WHITE;
-                    break;
-                case 6:
-                    energyType = EnergyType.ENERGY_YELLOW;
-                    break;
-            }
-            const energy = new Energy(energyType, tile, this.scene, {
-                positionPercent: Vector2DFactory.make(0, 0), 
-                positionBase: PositionBase.CENTER, 
-                sizePercent: 30,
-            });
-            await energy.initialize();
-            tile.setObject(energy);
-
-            if (this.energy[energyType]) {
-                this.energy[energyType]++;
-            } else {
-                this.energy[energyType] = 1;
-            }
-        }
-
-        this.upperUi.setEnergyResourcesUI(this.energy);
-        this.upperUi.setTurn(1);
-        this.upperUi.setAbilityUI(this.abilities);
-
-        /*
-        const character = this.map.getTile(0, 0, 0).getObject();
-        character.move(this.map.getTile(0, 1, -1));
-        */
+        await this.setCharacterPosition(this.startPosition.x, this.startPosition.y, this.startPosition.z);
+        await this.generateEnergiesOnMap(this.energyTypes, this.respawnRate);
+        await this.updateUI();
     }
 
     async initialize() {
@@ -115,6 +47,65 @@ export class Stage {
         const upperUi = new UpperUI(this.scene);
         await upperUi.initialize();
         this.upperUi = upperUi;
+    }
+
+    async updateUI() {
+        this.upperUi.setEnergyResourcesUI(this.energy);
+        this.upperUi.setTurn(this.turn);
+        this.upperUi.setAbilityUI(this.abilities);
+    }
+
+    async setCharacterPosition(x, y, z) {
+        const tile = this.map.getTile(x, y, z);
+        if (!tile) {
+            throw "setCharacterPosition failed, " + x + ", " + y + ", " + z;
+        }
+
+        const abilities = {};
+        abilities[AbilityType.ABILITY_MOVE] = 3;
+        abilities[AbilityType.ABILITY_ATTACK] = 1;
+        abilities[AbilityType.ABILITY_DEFENSE] = 1;
+        const character = new Character('player', CharacterType.CHARACTER_PLAYER, [
+            { name: 'idle', speed: 0.5, isDefault: true },
+            { name: 'run', speed: 0.5 }], abilities, tile, tile, this.scene, {
+            positionPercent: Vector2DFactory.make(0, 0),
+            positionBase: PositionBase.CENTER,
+            sizePercent: 40
+        });
+        await character.initialize();
+        tile.setObject(character);
+        this.player = character;
+        this.abilities = abilities;
+    }
+
+    async generateEnergiesOnMap(energyTypes, respawnRate) {
+        const numOfTypes = energyTypes.length;
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; 
+        }
+
+        for (const pos in this.map.tileMap) {
+            const tile = this.map.tileMap[pos];
+            if (tile.getObject()) {
+                continue;
+            }
+
+            if (Math.random() > respawnRate) {
+                continue;
+            }
+
+            const energyType = energyTypes[getRandomInt(0, numOfTypes)];
+            const energy = new Energy(energyType, tile, this.scene, {
+                positionPercent: Vector2DFactory.make(0, 0), 
+                positionBase: PositionBase.CENTER, 
+                sizePercent: 30,
+            });
+            await energy.initialize();
+            tile.setObject(energy);
+        }
     }
 
     async addEnergyOnMap(x, y, z, energyType) {
@@ -150,15 +141,17 @@ export class Stage {
         return this.abilities[AbilityType.ABILITY_MOVE];
     }
 
-    nextTurn() {
-
+    addEnergy(energyType) {
+        if (this.energy[energyType]) {
+            this.energy[energyType]++;
+        } else {
+            this.energy[energyType] = 1;
+        }
     }
 
-    moveCharacter() {
-
-    }
-
-    moveEnemies() {
-
+    async endTurn() {
+        this.turn++;
+        await this.generateEnergiesOnMap(this.energyTypes, this.respawnRate);
+        await this.updateUI();
     }
 }
