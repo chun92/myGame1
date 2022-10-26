@@ -221,7 +221,11 @@ export class GameObject {
     }
 
     removeChild(gameObject) {
-        this.parent.asset.removeChild(this.asset);
+        if (this.children.includes(gameObject)) {
+            this.asset.removeChild(gameObject.asset);
+            const i = this.children.findIndex((elem) => elem == gameObject);
+            this.children.splice(i, 1);
+        }
     }
 
     update(framesPassed) {
