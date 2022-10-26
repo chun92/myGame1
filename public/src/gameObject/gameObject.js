@@ -226,12 +226,6 @@ export class GameObject {
         }
     }
 
-    update(framesPassed) {
-        this.children.forEach((child) => {
-            child.update(framesPassed);
-        });
-    }
-
     setLayerGroup(group) {
         this.asset.parentGroup = group;
     }

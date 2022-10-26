@@ -3,8 +3,9 @@ import layerManager from "../ui/layerManager";
 import { AnimatedGameObject } from "./animatedGameObject";
 import { EventEmitter } from 'events';
 import { waitFor } from "wait-for-event";
+import { Tween } from "tweedle.js"
 
-const movingSpeed = 0.05;
+const movingSpeed = 3;
 export class Character extends AnimatedGameObject {
     constructor (name, characterType, animations, abilities, tile, parent, scene, option) {
         super(name, animations, parent, scene, option);
@@ -44,33 +45,18 @@ export class Character extends AnimatedGameObject {
         }
 
         this.destination = this.asset.toLocal(targetTile.asset.getGlobalPosition());
-        const distance = Math.sqrt(this.destination.x * this.destination.x + this.destination.y * this.destination.y);
-        this.speedX = this.destination.x / distance;
-        this.speedY = this.destination.y / distance;
+
         this.currentAction = CharacterAction.MOVE;
         this.changeAnimation('run');
+        new Tween(this.asset).to({x: this.destination.x, y: this.destination.y}, 400).start().onComplete(() => {
+            this.currentAction = CharacterAction.IDLE;
+            this.changeAnimation('idle');
+            this.emitter.emit('moveDone');
+        })
 
         await waitFor('moveDone', this.emitter);
         this.asset.x = 0;
         this.asset.y = 0;
         this.tile = targetTile;
-    }
-
-    update(framesPassed) {
-        if (this.currentAction === CharacterAction.MOVE) {
-            let x = this.asset.x + this.speedX * framesPassed;
-            let y = this.asset.y + this.speedY * framesPassed;
-
-            if (Math.abs(x) >= Math.abs(this.destination.x) && Math.abs(y) >= Math.abs(this.destination.y)) {
-                x = this.destination.x;
-                y = this.destination.y;
-                this.currentAction = CharacterAction.IDLE;
-                this.changeAnimation('idle');
-                this.emitter.emit('moveDone');
-            }
-
-            this.asset.x = x;
-            this.asset.y = y;
-        }
     }
 }

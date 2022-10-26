@@ -3,6 +3,7 @@ import { EventSystem } from '@pixi/events'
 import * as PIXI from 'pixi.js';
 import { Stage } from '@pixi/layers'
 import layerManager from './ui/layerManager';
+import { Group } from 'tweedle.js';
 
 class GameManager {
     static getInstance() {
@@ -18,10 +19,10 @@ class GameManager {
     }
 
     initialize() {
+        extensions.remove(InteractionManager);
+
         this.width = window.screen.width;
         this.height = window.screen.height;
-
-        extensions.remove(InteractionManager);
 
         this.app = new Application({
             view: document.getElementById("pixi-canvas"),
@@ -65,9 +66,7 @@ class GameManager {
         }
 
         this.updateCallback = (framesPassed) => {
-            if (this.currentScene) {
-                this.currentScene.update(framesPassed);
-            }
+            Group.shared.update();
         };
 
         this.app.ticker.add(this.updateCallback);

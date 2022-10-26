@@ -29,10 +29,4 @@ export class Scene {
         this.asset.addChild(object.asset);
         this.children.push(object);
     }
-
-    update(framesPassed) {
-        this.children.forEach((child) => {
-            child.update(framesPassed);
-        });
-    }
 }
