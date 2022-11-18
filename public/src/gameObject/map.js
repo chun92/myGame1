@@ -1,6 +1,7 @@
-import { GameObject, GameObjectType } from "./gameObject";
+import { GameObject } from "./gameObject";
 import { Vector2DFactory, VectorHexagonFactory } from "../util/util";
 import { Tile } from "./tile";
+import { GameObjectType } from "../enums/gameObjectType";
 import gameManager from "../gameManager";
 
 export class Map extends GameObject {

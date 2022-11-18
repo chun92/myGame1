@@ -1,5 +1,6 @@
 import layerManager from "../ui/layerManager";
-import { GameObject, GameObjectType } from "./gameObject";
+import { GameObject } from "./gameObject";
+import { GameObjectType } from "../enums/gameObjectType";
 import { Tween } from "tweedle.js"
 
 export class Energy extends GameObject {

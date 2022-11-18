@@ -1,5 +1,6 @@
 import { AnimatedSpriteObject } from "./animatedSpriteObject";
-import { GameObject, GameObjectType } from "./gameObject";
+import { GameObject } from "./gameObject";
+import { GameObjectType } from "../enums/gameObjectType";
 export class AnimatedGameObject extends GameObject {
     constructor (name, animations, parent, scene, option) {
         super(name, GameObjectType.CONTAINER, parent, scene, option);

@@ -1,7 +1,7 @@
 import { Container } from "pixi.js";
 import { Vector2DFactory } from "./util/util";
 import coordinateCalculator from "./util/coordinateCalculator"
-import { GameObjectType } from "./gameObject/gameObject";
+import { GameObjectType } from "./enums/gameObjectType";
 
 export class Scene {
     static count = 0;

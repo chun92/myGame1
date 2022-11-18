@@ -2,16 +2,9 @@ import { Vector2DFactory, PositionBase } from "../util/util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
+import { GameObjectType } from "../enums/gameObjectType";
 import coordinateCalculator from "../util/coordinateCalculator"
 import layerManager from "../ui/layerManager";
-
-export const GameObjectType = Object.freeze({
-    SPRITE: "sprite",
-    ANIMATED_SPRITE: "aniamted_sprite",
-    CONTAINER: "container",
-    TEXT: "text",
-    SCENE: "scene",
-});
 
 export class GameObject {
     static count = 0;
@@ -26,9 +19,6 @@ export class GameObject {
         this.heightMax = option.heightMax;
         this.fixedPositionX = option.fixedPositionX;
         this.fixedPositionY = option.fixedPositionY;
-
-        this.postion;
-        this.size;
 
         this.parent = parent;
         this.scene = scene;

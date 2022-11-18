@@ -1,4 +1,4 @@
-import { GameObjectType } from "../gameObject/gameObject";
+import { GameObjectType } from "../enums/gameObjectType";
 import coordinateCalculator from "../util/coordinateCalculator";
 import { PositionBase, StringUtils, Vector2DFactory } from "../util/util";
 import { UI } from "./ui";
