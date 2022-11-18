@@ -1,6 +1,6 @@
+import * as PIXI from 'pixi.js';
 import { Application, extensions, InteractionManager } from 'pixi.js'
 import { EventSystem } from '@pixi/events'
-import * as PIXI from 'pixi.js';
 import { Stage } from '@pixi/layers'
 import layerManager from './ui/layerManager';
 import { Group } from 'tweedle.js';

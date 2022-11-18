@@ -1,4 +1,5 @@
 import { Layer, Group } from '@pixi/layers'
+import { LayerGroup } from '../enums/LayerGroup';
 
 class LayerManager {
     static getInstance() {
@@ -11,18 +12,7 @@ class LayerManager {
 
     initialize(stage) {
         stage.sortableChildren = true;
-
-        this.defaultGroup = new Group(0, true);
-        this.tileGroup = new Group(-1, true);
-        this.resourceGroup = new Group(1, true);
-        this.characterGroup = new Group(2, true);
-        this.uiGroup = new Group(100, true);
-
-        stage.addChild(new Layer(this.defaultGroup));
-        stage.addChild(new Layer(this.tileGroup));
-        stage.addChild(new Layer(this.resourceGroup));
-        stage.addChild(new Layer(this.characterGroup));
-        stage.addChild(new Layer(this.uiGroup));
+        Object.entries(LayerGroup).forEach(value => stage.addChild(new Layer(new Group(value[1], true))));
     }
 }
 
