@@ -24,6 +24,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "terser-webpack-plugin": "^5.3.6",
 
+    "immer": "9.0.16",
     "rimraf": "^3.0.2",
     "wait-for-event": "^2.0.1",
     "tweedle.js": "^2.0.0"
