@@ -109,9 +109,11 @@ export class GameObject {
         if (this.objectType === GameObjectType.CONTAINER) {
             const position = this.scene.coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y);
             this.position = position;
+            // console.log(this.id, position);
         } else {
             const position = this.scene.coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y, this.position);
             this.position = position;
+            // console.log(this.id, position);
         }
 
         if (this.fixedPositionX) {

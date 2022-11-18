@@ -1,6 +1,9 @@
+import { immerable, produce } from "immer";
 import { Vector2DFactory } from "./util"
 
 export class CoordinateCalculator {
+    [immerable] = true
+
     constructor() {
         this.width = 0;
         this.height = 0;
@@ -15,11 +18,13 @@ export class CoordinateCalculator {
     }
 
     setSize(width, height) {
-        this.prevWidth = this.width;
-        this.prevHeight = this.height;
-        this.width = width;
-        this.height = height;
-        this.ratioChanged = this.width / this.prevWidth;
+        return produce(this, draft => {
+            draft.prevWidth = this.width;
+            draft.prevHeight = this.height;
+            draft.width = width;
+            draft.height = height;
+            draft.ratioChanged = draft.width / draft.prevWidth;
+        });
     }
 
     getSize(percent, original) {
