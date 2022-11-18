@@ -1,6 +1,6 @@
 import { GameObjectType } from "../enums/gameObjectType";
 import { Vector2DFactory } from "../util/vector2D";
-import { StringUtils } from "../util/util";
+import { StringUtils } from "../util/stringUtils";
 import { PositionBase } from "../enums/positionBase"
 import { UI } from "./ui";
 
