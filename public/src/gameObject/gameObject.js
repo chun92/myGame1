@@ -4,7 +4,8 @@ import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
 import { GameObjectType } from "../enums/gameObjectType";
-import layerManager from "../common/layerManager";
+import { LayerGroup } from "../enums/LayerGroup";
+import gameManager from "../common/gameManager";
 
 export class GameObject {
     static count = 0;
@@ -39,7 +40,8 @@ export class GameObject {
             if (this.parent && this.parent.addChild) {
                 this.parent.addChild(this);
             }
-            this.asset.parentGroup = layerManager.defaultGroup;
+
+            gameManager.layerManager.setObject(this, LayerGroup.DEFAULT);
 
             this.updateSize();
         } catch (error) {
@@ -216,9 +218,5 @@ export class GameObject {
             const i = this.children.findIndex((elem) => elem == gameObject);
             this.children.splice(i, 1);
         }
-    }
-
-    setLayerGroup(group) {
-        this.asset.parentGroup = group;
     }
 }

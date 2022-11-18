@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Application, extensions, InteractionManager } from 'pixi.js'
 import { EventSystem } from '@pixi/events'
 import { Stage } from '@pixi/layers'
-import layerManager from './layerManager';
+import { LayerManager } from './layerManager';
 import { Group } from 'tweedle.js';
 
 class GameManager {
@@ -49,7 +49,8 @@ class GameManager {
             }
         }, true);
 
-        layerManager.initialize(this.app.stage);
+        this.layerManager = new LayerManager();
+        this.layerManager.initialize(this.app.stage);
     }
 
     changeScene(newScene) {

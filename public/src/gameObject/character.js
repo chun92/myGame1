@@ -1,9 +1,10 @@
 import { CharacterAction } from "../enums/characterAction";
-import layerManager from "../common/layerManager";
 import { AnimatedGameObject } from "./animatedGameObject";
 import { EventEmitter } from 'events';
 import { waitFor } from "wait-for-event";
 import { Tween } from "tweedle.js"
+import gameManager from "../common/gameManager";
+import { LayerGroup } from "../enums/LayerGroup";
 
 const movingSpeed = 3;
 export class Character extends AnimatedGameObject {
@@ -20,7 +21,7 @@ export class Character extends AnimatedGameObject {
     async initialize() {
         await super.initialize();
         for (const asset in this.assetMap) {
-            this.assetMap[asset].setLayerGroup(layerManager.characterGroup);
+            gameManager.layerManager.setObject(this.assetMap[asset], LayerGroup.CHARACTER);
         }
     }
 

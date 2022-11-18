@@ -1,7 +1,9 @@
 import layerManager from "../common/layerManager";
 import { GameObject } from "./gameObject";
 import { GameObjectType } from "../enums/gameObjectType";
+import { LayerGroup } from "../enums/LayerGroup";
 import { Tween } from "tweedle.js"
+import gameManager from "../common/gameManager";
 
 export class Energy extends GameObject {
     constructor (energyType, parent, scene, option) {
@@ -11,7 +13,7 @@ export class Energy extends GameObject {
 
     async initialize() {
         await super.initialize();
-        this.setLayerGroup(layerManager.resourceGroup);
+        gameManager.layerManager.setObject(this, LayerGroup.RESOURCE);
 
         this.setAnimation();
     }

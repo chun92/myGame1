@@ -1,5 +1,6 @@
 import { GameObject } from "../gameObject/gameObject";
-import layerManager from "../common/layerManager";
+import gameManager from "../common/gameManager";
+import { LayerGroup } from "../enums/LayerGroup";
 
 export class UI extends GameObject {
     constructor (name, objectType, parent, scene, option) {
@@ -8,6 +9,6 @@ export class UI extends GameObject {
 
     async initialize() {
         await super.initialize();
-        this.setLayerGroup(layerManager.uiGroup);
+        gameManager.layerManager.setObject(this, LayerGroup.UI);
     }
 }
