@@ -1,14 +1,14 @@
-import { Energy } from "./gameObject/energy";
-import { Map } from "./gameObject/map"
-import { UpperUI } from "./ui/upperUi";
-import { Vector2DFactory } from "./util/vector2D";
-import { VectorHexagonFactory } from "./util/vectorHexagon";
-import { PositionBase } from "./enums/positionBase"
+import { Energy } from "../gameObject/energy";
+import { Map } from "../gameObject/map"
+import { UpperUI } from "../ui/upperUi";
+import { Vector2DFactory } from "../util/vector2D";
+import { VectorHexagonFactory } from "../util/vectorHexagon";
+import { PositionBase } from "../enums/positionBase"
 
-import { EnergyType } from "./enums/energyType";
-import { AbilityType } from "./enums/abilityType";
-import { Character } from "./gameObject/character";
-import { CharacterType } from "./enums/characterType";
+import { EnergyType } from "../enums/energyType";
+import { AbilityType } from "../enums/abilityType";
+import { Character } from "../gameObject/character";
+import { CharacterType } from "../enums/characterType";
 
 export class Stage {
     static totalCount = 0;

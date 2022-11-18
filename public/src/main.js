@@ -1,6 +1,6 @@
 import gameManager from './common/gameManager';
-import { Scene } from './scene';
-import { Stage } from './stage';
+import { Scene } from './common/scene';
+import { Stage } from './common/stage';
 
 gameManager.initialize();
 
