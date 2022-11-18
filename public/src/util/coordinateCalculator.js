@@ -1,5 +1,5 @@
 import { immerable, produce } from "immer";
-import { Vector2DFactory } from "./util"
+import { Vector2DFactory } from "./vector2D";
 
 export class CoordinateCalculator {
     [immerable] = true

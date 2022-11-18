@@ -1,4 +1,5 @@
-import { Vector2DFactory, PositionBase } from "../util/util";
+import { Vector2DFactory } from "../util/vector2D";
+import { PositionBase } from "../util/util";
 import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";

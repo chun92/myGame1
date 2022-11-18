@@ -1,7 +1,9 @@
 import { Energy } from "./gameObject/energy";
 import { Map } from "./gameObject/map"
 import { UpperUI } from "./ui/upperUi";
-import { PositionBase, Vector2DFactory, VectorHexagonFactory } from "./util/util";
+import { Vector2DFactory } from "./util/vector2D";
+import { VectorHexagonFactory } from "./util/vectorHexagon";
+import { PositionBase } from "./util/util";
 
 import { EnergyType } from "./enums/energyType";
 import { AbilityType } from "./enums/abilityType";

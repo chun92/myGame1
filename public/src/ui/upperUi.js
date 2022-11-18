@@ -1,5 +1,6 @@
 import { GameObjectType } from "../enums/gameObjectType";
-import { PositionBase, StringUtils, Vector2DFactory } from "../util/util";
+import { Vector2DFactory } from "../util/vector2D";
+import { PositionBase, StringUtils} from "../util/util";
 import { UI } from "./ui";
 
 export class UpperUI extends UI {

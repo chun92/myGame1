@@ -1,5 +1,6 @@
 import { GameObject } from "./gameObject";
-import { Vector2DFactory, VectorHexagonFactory } from "../util/util";
+import { Vector2DFactory } from "../util/vector2D";
+import { VectorHexagonFactory } from "../util/vectorHexagon";
 import { Tile } from "./tile";
 import { GameObjectType } from "../enums/gameObjectType";
 import gameManager from "../gameManager";
