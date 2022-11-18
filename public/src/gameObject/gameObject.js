@@ -3,7 +3,6 @@ import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
 import { GameObjectType } from "../enums/gameObjectType";
-import coordinateCalculator from "../util/coordinateCalculator"
 import layerManager from "../ui/layerManager";
 
 export class GameObject {
@@ -78,7 +77,7 @@ export class GameObject {
 
         if (this.objectType === GameObjectType.CONTAINER) {
             if (isParentContainer) {
-                let size = coordinateCalculator.getSize(this.sizePercent, this.size);
+                let size = this.scene.coordinateCalculator.getSize(this.sizePercent, this.size);
                 if (this.heightMax) {
                     if (size.y > this.heightMax) {
                         size.y = this.heightMax;
@@ -91,7 +90,7 @@ export class GameObject {
         } else {
             this.setAnchor(this.positionBase);
             if (isParentContainer) {
-                const size = coordinateCalculator.getSize(this.sizePercent, this.size);
+                const size = this.scene.coordinateCalculator.getSize(this.sizePercent, this.size);
                 this.size = this.getSizeWithHeightMax(size);
                 this.asset.width = size.x;
                 this.asset.height = size.y;
@@ -108,10 +107,10 @@ export class GameObject {
         }
 
         if (this.objectType === GameObjectType.CONTAINER) {
-            const position = coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y);
+            const position = this.scene.coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y);
             this.position = position;
         } else {
-            const position = coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y, this.position);
+            const position = this.scene.coordinateCalculator.getTargetPosition(this.positionPercent.x, this.positionPercent.y, this.position);
             this.position = position;
         }
 
@@ -161,7 +160,7 @@ export class GameObject {
 
     createContainer() {
         this.asset = new Container();
-        this.size = coordinateCalculator.getSize(this.sizePercent);
+        this.size = this.scene.coordinateCalculator.getSize(this.sizePercent);
     }
 
     createText() {

@@ -1,5 +1,4 @@
 import { GameObjectType } from "../enums/gameObjectType";
-import coordinateCalculator from "../util/coordinateCalculator";
 import { PositionBase, StringUtils, Vector2DFactory } from "../util/util";
 import { UI } from "./ui";
 
@@ -76,7 +75,7 @@ class EnergyResourceUI extends UI {
     constructor (energyType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        const heightMax = coordinateCalculator.getSize(4).x;
+        const heightMax = scene.coordinateCalculator.getSize(4).x;
         const margin = 10;
         const fixedPositionY = column * (heightMax + margin);
         super('energyResourcesUI', GameObjectType.CONTAINER, parent, scene, { 
@@ -112,7 +111,7 @@ class EnergyResourceUI extends UI {
     }
 
     resize() {
-        this.heightMax = coordinateCalculator.getSize(4).x;
+        this.heightMax = this.scene.coordinateCalculator.getSize(4).x;
         const margin = 10;
         this.fixedPositionY = this.column * (this.heightMax + margin);
         super.resize();
@@ -169,7 +168,7 @@ class TurnUI extends UI {
     }
 
     resize() {
-        const pos = coordinateCalculator.getSize(this.turnText.size).y;
+        const pos = this.scene.coordinateCalculator.getSize(this.turnText.size).y;
         this.turnCount.fixedPositionY = pos;
         super.resize();
     }
@@ -232,7 +231,7 @@ class AbilityUI extends UI {
     constructor (abilityType, num, index, parent, scene) {
         const row = index % 4;
         const column = Math.floor(index / 4);
-        const heightMax = coordinateCalculator.getSize(4).x;
+        const heightMax = scene.coordinateCalculator.getSize(4).x;
         const margin = 10;
         const fixedPositionY = column * (heightMax + margin);
         super('abilityUI', GameObjectType.CONTAINER, parent, scene, {
@@ -269,7 +268,7 @@ class AbilityUI extends UI {
     }
 
     resize() {
-        this.heightMax = coordinateCalculator.getSize(4).x;
+        this.heightMax = this.scene.coordinateCalculator.getSize(4).x;
         const margin = 10;
         this.fixedPositionY = this.column * (this.heightMax + margin);
         super.resize();

@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import { Vector2DFactory } from "./util/util";
-import coordinateCalculator from "./util/coordinateCalculator"
+import { CoordinateCalculator } from "./util/coordinateCalculator"
 import { GameObjectType } from "./enums/gameObjectType";
 
 export class Scene {
@@ -14,12 +14,13 @@ export class Scene {
         this.objectType = GameObjectType.SCENE;
 
         const sceneSize = Vector2DFactory.make(width, height);
-        coordinateCalculator.setSize(sceneSize.x, sceneSize.y);
+        this.coordinateCalculator = new CoordinateCalculator(); 
+        this.coordinateCalculator.setSize(sceneSize.x, sceneSize.y);
         this.size = sceneSize;
     }
 
     resize(width, height) {
-        coordinateCalculator.setSize(width, height);
+        this.coordinateCalculator.setSize(width, height);
         this.children.forEach((child) => {
             child.resize();
         });

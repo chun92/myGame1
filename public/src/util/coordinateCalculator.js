@@ -1,19 +1,11 @@
 import { Vector2DFactory } from "./util"
 
-class CoordinateCalculator {
+export class CoordinateCalculator {
     constructor() {
         this.width = 0;
         this.height = 0;
         this.prevWidth = 0;
         this.prevHeight = 0;
-    }
-
-    static getInstance() {
-        if (!this.instance) {
-            this.instance = new CoordinateCalculator();
-        }
-
-        return this.instance;
     }
 
     getPosition(xPercent, yPercent) {
@@ -55,6 +47,3 @@ class CoordinateCalculator {
         }
     }
 }
-
-const coordinateCalculator = CoordinateCalculator.getInstance();
-export default coordinateCalculator;
