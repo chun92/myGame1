@@ -1,5 +1,5 @@
 import { CharacterAction } from "../enums/characterAction";
-import layerManager from "../ui/layerManager";
+import layerManager from "../common/layerManager";
 import { AnimatedGameObject } from "./animatedGameObject";
 import { EventEmitter } from 'events';
 import { waitFor } from "wait-for-event";

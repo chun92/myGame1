@@ -1,4 +1,4 @@
-import gameManager from './gameManager';
+import gameManager from './common/gameManager';
 import { Scene } from './scene';
 import { Stage } from './stage';
 

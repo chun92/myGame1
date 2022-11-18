@@ -2,8 +2,8 @@ import { GameObject } from "./gameObject";
 import { GameObjectType } from "../enums/gameObjectType";
 import { PositionBase } from "../enums/positionBase"
 import { Polygon } from "pixi.js";
-import layerManager from "../ui/layerManager";
-import gameManager from "../gameManager";
+import layerManager from "../common/layerManager";
+import gameManager from "../common/gameManager";
 
 const tileMagin = 1;
 export class Tile extends GameObject {

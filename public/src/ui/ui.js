@@ -1,5 +1,5 @@
 import { GameObject } from "../gameObject/gameObject";
-import layerManager from "./layerManager";
+import layerManager from "../common/layerManager";
 
 export class UI extends GameObject {
     constructor (name, objectType, parent, scene, option) {

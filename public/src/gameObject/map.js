@@ -3,7 +3,7 @@ import { Vector2DFactory } from "../util/vector2D";
 import { VectorHexagonFactory } from "../util/vectorHexagon";
 import { Tile } from "./tile";
 import { GameObjectType } from "../enums/gameObjectType";
-import gameManager from "../gameManager";
+import gameManager from "../common/gameManager";
 
 export class Map extends GameObject {
     constructor (stage, scene) {

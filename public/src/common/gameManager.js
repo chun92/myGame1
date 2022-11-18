@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Application, extensions, InteractionManager } from 'pixi.js'
 import { EventSystem } from '@pixi/events'
 import { Stage } from '@pixi/layers'
-import layerManager from './ui/layerManager';
+import layerManager from './layerManager';
 import { Group } from 'tweedle.js';
 
 class GameManager {

@@ -1,4 +1,4 @@
-import layerManager from "../ui/layerManager";
+import layerManager from "../common/layerManager";
 import { GameObject } from "./gameObject";
 import { GameObjectType } from "../enums/gameObjectType";
 import { Tween } from "tweedle.js"

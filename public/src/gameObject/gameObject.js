@@ -4,7 +4,7 @@ import { AssetMap } from "../../data/assetMap";
 import { Assets } from "@pixi/assets";
 import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
 import { GameObjectType } from "../enums/gameObjectType";
-import layerManager from "../ui/layerManager";
+import layerManager from "../common/layerManager";
 
 export class GameObject {
     static count = 0;
