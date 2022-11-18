@@ -1,6 +1,6 @@
 import { GameObject } from "./gameObject";
 import { GameObjectType } from "../enums/gameObjectType";
-import { PositionBase } from "../util/util";
+import { PositionBase } from "../enums/positionBase"
 import { Polygon } from "pixi.js";
 import layerManager from "../ui/layerManager";
 import gameManager from "../gameManager";
