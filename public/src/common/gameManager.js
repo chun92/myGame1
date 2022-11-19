@@ -14,10 +14,6 @@ class GameManager {
         return this.instance;
     }
 
-    registerPixiInspector() {
-        window.__PIXI_INSPECTOR_GLOBAL_HOOK__ &&  window.__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
-    }
-
     getWidth() {
         return window.screen.width;
     }
@@ -27,8 +23,10 @@ class GameManager {
     }
 
     initialize() {
+        // remove pre-defined interaction system
         extensions.remove(InteractionManager);
 
+        // create app
         this.app = new Application({
             view: document.getElementById("pixi-canvas"),
             resolution: window.devicePixelRatio || 1,
@@ -37,13 +35,17 @@ class GameManager {
             resizeTo: window
         });
 
+        // initialize stage
         this.app.stage = new Stage();
 
+        // set new event system
         const { renderer } = this.app;
         renderer.addSystem(EventSystem, 'events');
 
-        this.registerPixiInspector();
+        // add debugger for inspect
+        window.__PIXI_INSPECTOR_GLOBAL_HOOK__ &&  window.__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
 
+        // resize event listener
         window.addEventListener('resize', () => {
             this.app.resize();
             if (this.currentScene) {
@@ -51,8 +53,8 @@ class GameManager {
             }
         }, true);
 
-        this.layerManager = new LayerManager();
-        this.layerManager.initialize(this.app.stage);
+        // set 
+        this.layerManager = new LayerManager().initialize(this.app.stage);
     }
 
     changeScene(newScene) {
