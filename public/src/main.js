@@ -4,7 +4,7 @@ import { Stage } from './common/stage';
 
 gameManager.initialize();
 
-const scene = new Scene("test", gameManager.width, gameManager.height);
+const scene = new Scene("test", gameManager.getWidth(), gameManager.getHeight());
 gameManager.changeScene(scene);
 
 const stage = new Stage(scene);

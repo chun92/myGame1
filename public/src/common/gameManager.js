@@ -18,11 +18,16 @@ class GameManager {
         window.__PIXI_INSPECTOR_GLOBAL_HOOK__ &&  window.__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
     }
 
+    getWidth() {
+        return window.screen.width;
+    }
+
+    getHeight() {
+        return window.screen.height;
+    }
+
     initialize() {
         extensions.remove(InteractionManager);
-
-        this.width = window.screen.width;
-        this.height = window.screen.height;
 
         this.app = new Application({
             view: document.getElementById("pixi-canvas"),
@@ -40,12 +45,9 @@ class GameManager {
         this.registerPixiInspector();
 
         window.addEventListener('resize', () => {
-            this.width = window.screen.width;
-            this.height = window.screen.height;
-
             this.app.resize();
             if (this.currentScene) {
-                this.currentScene.resize(this.width, this.height);
+                this.currentScene.resize(window.screen.width, window.screen.height);
             }
         }, true);
 
