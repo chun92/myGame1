@@ -22,25 +22,17 @@ export class Tile extends GameObject {
         await super.initialize();
 
         gameManager.layerManager.setObject(this, LayerGroup.TILE);
-
-        this.asset.on('pointerdown', () => {
-            this.parent.asset.emit('tiledown', this.vectorHexagon);
-        });
-
-        this.asset.on('pointerup', () => {
-            this.parent.asset.emit('tileup', this.vectorHexagon);
-        });
-
-        this.asset.on('pointerupoutside', () => {
-            this.parent.asset.emit('tileupoutside', this.vectorHexagon);
-        });
-
-        this.asset.on('pointerenter', () => {
-            this.parent.asset.emit('tileenter', this.vectorHexagon);
-        });
-
-        this.asset.on('pointerleave', () => {
-            this.parent.asset.emit('tileleave', this.vectorHexagon);
+        
+        Object.entries({
+            'pointerdown': 'tiledown',
+            'pointerup': 'tileup',
+            'pointerupoutside': 'tileupoutside',
+            'pointerenter': 'tileenter',
+            'pointerleave': 'tileleave'
+        }).forEach(elem => {
+            const key = elem[0];
+            const value = elem[1];
+            this.asset.on(key, () => this.parent.asset.emit(value, this.vectorHexagon));
         });
 
         this.setHitArea();
@@ -60,7 +52,7 @@ export class Tile extends GameObject {
         this.addChild(this.object);
     }
 
-    clearObject(tile) {
+    clearObject() {
         this.object = null;
     }
 

@@ -6,8 +6,10 @@ import { AnimatedSprite, Container, Sprite, Text } from "pixi.js";
 import { GameObjectType } from "../enums/gameObjectType";
 import { LayerGroup } from "../enums/LayerGroup";
 import gameManager from "../common/gameManager";
+import { immerable } from "immer";
 
 export class GameObject {
+    [immerable] = true;
     static count = 0;
     constructor (name, objectType, parent, scene, option) {
         GameObject.count++;

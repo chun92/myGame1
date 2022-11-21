@@ -24,24 +24,16 @@ export class Map extends GameObject {
 
         this.tileMovePreview = [];
 
-        this.asset.addListener('tiledown', (vectorHexagon) => {
-            this.initStep(vectorHexagon);
-        });
-
-        this.asset.addListener('tileup', (vectorHexagon) => {
-            this.endStep(vectorHexagon);
-        });
-
-        this.asset.addListener('tileupoutside', (vectorHexagon) => {
-            this.cancelStep(vectorHexagon);
-        });
-
-        this.asset.addListener('tileenter', (vectorHexagon) => {
-            this.stepTo(vectorHexagon);
-        });
-
-        this.asset.addListener('tileleave', (vectorHexagon) => {
-            this.stepDone(vectorHexagon);
+        Object.entries({
+            'tiledown': this.initStep.bind(this),
+            'tileup': this.endStep.bind(this),
+            'tileupoutside': this.cancelStep.bind(this),
+            'tileenter': this.stepTo.bind(this),
+            'tileleave': this.stepDone.bind(this),
+        }).forEach(elem => {
+            const key = elem[0];
+            const value = elem[1];
+            this.asset.addListener(key, (vectorHexagon) => value(vectorHexagon));
         });
     }
 
