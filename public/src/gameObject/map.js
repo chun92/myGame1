@@ -140,21 +140,7 @@ export class Map extends GameObject {
             this.inEndStep = false;
         }
     }
-
-    activeTile(vectorHexagon) {
-        const tile = this.getTile(vectorHexagon);
-        if (tile) {
-            tile.asset.tint = 0x90EE90;
-        }
-    }
-
-    deactivateTile(vectorHexagon) {
-        const tile = this.getTile(vectorHexagon);
-        if (tile) {
-            tile.asset.tint = 0xFFFFFF;
-        }
-    }
-
+    
     static getTileKey(x, y, z) {
         return x + ',' + y + ',' + z;
     }
