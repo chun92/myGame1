@@ -126,7 +126,7 @@ export class Map extends GameObject {
                 const tile = this.getTile(destination);
                 const player = stage.getPlayer();
                 const previousTile = stage.getPlayer().tile;
-                await this.moveCharacter(player, destination);
+                await player.move(this.getTile(destination));
                 
                 tile.setObject(player);
                 previousTile.clearObject();
@@ -158,10 +158,6 @@ export class Map extends GameObject {
                 }
             }
         }
-    }
-
-    async moveCharacter(character, destination) {
-        await character.move(this.getTile(destination));
     }
 
     getTile(vectorHexagon) {
