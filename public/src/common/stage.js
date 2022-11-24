@@ -35,7 +35,7 @@ export class Stage {
             this.energy[energyType] = 0;
         }
 
-        await this.setCharacterPosition(this.startPosition.x, this.startPosition.y, this.startPosition.z);
+        await this.setCharacterPosition(this.startPosition);
         await this.generateEnergiesOnMap(this.energyTypes, this.respawnRate);
         await this.updateUI();
     }
@@ -57,10 +57,10 @@ export class Stage {
         this.upperUi.setAbilityUI(this.abilities);
     }
 
-    async setCharacterPosition(x, y, z) {
-        const tile = this.map.getTile(x, y, z);
+    async setCharacterPosition(vectorHexagon) {
+        const tile = this.map.getTile(vectorHexagon);
         if (!tile) {
-            throw "setCharacterPosition failed, " + x + ", " + y + ", " + z;
+            throw "setCharacterPosition failed, " + vectorHexagon;
         }
 
         const abilities = {};
@@ -110,15 +110,15 @@ export class Stage {
         }
     }
 
-    async addEnergyOnMap(x, y, z, energyType) {
-        const tile = this.map.getTile(x, y, z);
+    async addEnergyOnMap(vectorHexagon, energyType) {
+        const tile = this.map.getTile(vectorHexagon);
         if (!tile) {
-            console.warn("addEnergyOnMap failed, because there's no tile on map at " + Map.getTileKey(x, y, z));
+            console.warn("addEnergyOnMap failed, because there's no tile on map at " + vectorHexagon);
             return;
         }
 
         if (tile.getObject()) {
-            console.warn("addEnergyOnMap failed, because there's object on tile at  " + Map.getTileKey(x, y, z));
+            console.warn("addEnergyOnMap failed, because there's object on tile at  " + vectorHexagon);
             return;
         }
         

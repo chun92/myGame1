@@ -122,7 +122,7 @@ export class Map extends GameObject {
 
             for (const index in this.tileMovePreview) {
                 const destination = this.tileMovePreview[index];
-                const tile = this.getTile(destination.x, destination.y, destination.z);
+                const tile = this.getTile(destination);
                 const player = stage.getPlayer();
                 const previousTile = stage.getPlayer().tile;
                 await this.moveCharacter(player, destination);
@@ -141,14 +141,14 @@ export class Map extends GameObject {
     }
 
     activeTile(vectorHexagon) {
-        const tile = this.getTile(vectorHexagon.x, vectorHexagon.y, vectorHexagon.z);
+        const tile = this.getTile(vectorHexagon);
         if (tile) {
             tile.asset.tint = 0x90EE90;
         }
     }
 
     deactivateTile(vectorHexagon) {
-        const tile = this.getTile(vectorHexagon.x, vectorHexagon.y, vectorHexagon.z);
+        const tile = this.getTile(vectorHexagon);
         if (tile) {
             tile.asset.tint = 0xFFFFFF;
         }
@@ -174,10 +174,10 @@ export class Map extends GameObject {
     }
 
     async moveCharacter(character, destination) {
-        await character.move(this.getTile(destination.x, destination.y, destination.z));
+        await character.move(this.getTile(destination));
     }
 
-    getTile(x, y, z) {
-        return this.tileMap[Map.getTileKey(x, y, z)];
+    getTile(vectorHexagon) {
+        return this.tileMap[Map.getTileKey(vectorHexagon.x, vectorHexagon.y, vectorHexagon.z)];
     }
 }
