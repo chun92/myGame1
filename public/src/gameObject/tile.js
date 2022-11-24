@@ -4,6 +4,7 @@ import { PositionBase } from "../enums/positionBase"
 import { Polygon } from "pixi.js";
 import { LayerGroup } from "../enums/LayerGroup";
 import gameManager from "../common/gameManager";
+import { ColorTheme } from "../enums/colorTheme";
 
 const tileMagin = 1;
 export class Tile extends GameObject {
@@ -85,5 +86,13 @@ export class Tile extends GameObject {
     resize() {
         super.resize();
         this.setHitArea();
+    }
+
+    setActive(isActive) {
+        if (isActive) {
+            this.asset.tint = ColorTheme.TILE_ACTIVE;
+        } else {
+            this.asset.tint = ColorTheme.TILE_DEACTIVE;
+        }
     }
 }

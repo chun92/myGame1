@@ -46,7 +46,7 @@ export class Map extends GameObject {
         if (playerTile && playerTile.vectorHexagon.getLength(vectorHexagon) == 1) {
             this.tileMovePreview = [];
             this.currentTile = vectorHexagon;
-            this.activeTile(vectorHexagon);
+            this.getTile(vectorHexagon).setActive(true);
             this.stepFinished = false;
             this.tileMovePreview.push(vectorHexagon);
         }
@@ -70,13 +70,13 @@ export class Map extends GameObject {
                 if (numOfTiles >= stage.getNumberOfMoveAbility()) {
                     return;
                 } 
-                this.activeTile(vectorHexagon);
+                this.getTile(vectorHexagon).setActive(true);
                 this.tileMovePreview.push(vectorHexagon);
             } else {
                 const saved = this.tileMovePreview.slice(0, index + 1);
                 const discarded = this.tileMovePreview.slice(index + 1);
                 for (const tile in discarded) {
-                    this.deactivateTile(discarded[tile]);
+                    this.getTile(discarded[tile]).setActive(false);
                 }
                 this.tileMovePreview = saved;
             }
@@ -99,8 +99,9 @@ export class Map extends GameObject {
         }
 
         if (!this.stepFinished && !this.currentTile) {
-            for (const tile in this.tileMovePreview) {
-                this.deactivateTile(this.tileMovePreview[tile]);
+            for (const index in this.tileMovePreview) {
+                const destination = this.tileMovePreview[index];
+                this.getTile(destination).setActive(false);
             }
             this.tileMovePreview = [];
             this.currentTile = null;
@@ -117,7 +118,7 @@ export class Map extends GameObject {
             this.inEndStep = true;
             for (const index in this.tileMovePreview) {
                 const destination = this.tileMovePreview[index];
-                this.deactivateTile(destination);
+                this.getTile(destination).setActive(false);
             }
 
             for (const index in this.tileMovePreview) {
